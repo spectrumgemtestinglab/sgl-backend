@@ -75,7 +75,8 @@ const ordersController = {
 
   deleteOrder: async (req, res) => {
     try {
-      const { orderId } = req.params;
+      const { id } = req.params;
+      const orderId = id;
   
       if (!orderId) {
         return res.status(400).json({ error: 'delete orderId is required' });
@@ -93,6 +94,7 @@ const ordersController = {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   },
+  
   
   
   
