@@ -1,4 +1,4 @@
-import Jewelry from '../Model/jewelryModel.js';
+import Jewelry from '../model/jewelryModel.js'
 import multer from 'multer';
 
 const storage = multer.memoryStorage();
@@ -7,7 +7,7 @@ const upload = multer({ storage: storage });
 const jewelryController = {
   getAlljewelry: async function (req, res) {
     try {
-      const allJewelry = await Jewelry.find(); // Fix the model name here
+      const allJewelry = await Jewelry.find(); 
       res.status(200).json(allJewelry);
     } catch (error) {
       console.error('Error fetching jewelry:', error);
@@ -44,7 +44,7 @@ const jewelryController = {
   deletejewelry: async function (req, res) {
     try {
       const { id } = req.params;
-      const jewelryItem = await Jewelry.findById(id); // Fix the model name here
+      const jewelryItem = await Jewelry.findById(id); 
 
       if (!jewelryItem) {
         return res.status(404).json({ error: 'Jewelry not found' });
