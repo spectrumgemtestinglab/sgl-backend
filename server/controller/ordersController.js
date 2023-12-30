@@ -3,16 +3,17 @@ import Orders from "../model/ordersModel.js";
 const ordersController = {
   createOrder: async (req, res) => {
     try {
-      const { userName, items, orderId, date, status, address, totalPrice } = req.body;
+      const { userName, userId, items, orderId, date, status, address, totalPrice } = req.body;
 
       const newOrder = await Orders.create({
         userName,
+        userId,
         items,
         orderId,
         date,
         status,
         address,
-        totalPrice
+        totalPrice,
       });
 
       res.status(201).json(newOrder);
@@ -24,12 +25,13 @@ const ordersController = {
 
   getAllOrders: async (req, res) => {
     try {
+      console.log('Fetching all orders...');
       const allOrders = await Orders.find();
+      console.log('Fetched orders:', allOrders);
   
-      // Format the date field to "yyyy-MM-dd"
-      const formattedOrders = allOrders.map(order => ({
+      const formattedOrders = allOrders.map((order) => ({
         ...order.toObject(),
-        date: new Date(order.date).toLocaleDateString('en-GB'), // Adjust the locale as needed
+        date: new Date(order.date).toLocaleDateString('en-GB'), 
       }));
   
       res.status(200).json(formattedOrders);
@@ -39,9 +41,7 @@ const ordersController = {
     }
   },
   
-  
 
- 
   editOrder: async (req, res) => {
     try {
       const { orderId } = req.params;
@@ -57,41 +57,97 @@ const ordersController = {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   },
+
   updateOrder: async (req, res) => {
     try {
       const { orderId } = req.params;
       console.log('Received Order ID for Update:', orderId);
-      // ... (rest of the code)
+
+      // Implement your update logic here
+      // Example: const updatedOrder = await Orders.findByIdAndUpdate(orderId, { yourUpdateFields }, { new: true });
+
+      res.status(200).json({ message: 'Order updated successfully', updatedOrder });
     } catch (error) {
       console.error('Error updating order:', error);
       res.status(500).json({ error: 'Internal Server Error' });
     }
   },
+
+  deleteOrder: async (req, res) => {
+    try {
+      const { orderId } = req.params;
+  
+      if (!orderId) {
+        return res.status(400).json({ error: 'delete orderId is required' });
+      }
+  
+      const deleteOrder = await Orders.findByIdAndDelete(orderId);
+  
+      if (!deleteOrder) {
+        return res.status(404).json({ error: 'Order not found' });
+      }
+  
+      res.status(200).json(deleteOrder);
+    } catch (error) {
+      console.error('Error deleting order:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  },
+  
+  
   
 
+  // Add a new item to an order
+  addItemToOrder: async (req, res) => {
+    try {
+      const { orderId } = req.params;
+      const { newItem } = req.body;
 
+      const existingOrder = await Orders.findById(orderId);
 
-deleteOrder: async (req, res) => {
-  try {
-    const { orderId } = req.params; 
+      if (!existingOrder) {
+        return res.status(404).json({ error: 'Order not found' });
+      }
 
-    if (!orderId) {
-      return res.status(400).json({ error: 'delete orderId is required' });
+      existingOrder.items.push(newItem);
+
+      const updatedOrder = await existingOrder.save();
+
+      res.status(200).json(updatedOrder);
+    } catch (error) {
+      console.error('Error adding item to order:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
+  },
 
-    const deleteOrder = await Orders.findByIdAndDelete(orderId);
+  // Update an item in an order
+  updateItemInOrder: async (req, res) => {
+    try {
+      const { orderId, itemId } = req.params;
+      const { updatedItem } = req.body;
 
-    if (!deleteOrder) {
-      return res.status(404).json({ error: 'Order not found' });
+      const existingOrder = await Orders.findById(orderId);
+
+      if (!existingOrder) {
+        return res.status(404).json({ error: 'Order not found' });
+      }
+
+      const existingItemIndex = existingOrder.items.findIndex(item => item._id == itemId);
+
+      if (existingItemIndex === -1) {
+        return res.status(404).json({ error: 'Item not found in order' });
+      }
+
+      existingOrder.items[existingItemIndex] = { ...existingOrder.items[existingItemIndex], ...updatedItem };
+
+      const updatedOrder = await existingOrder.save();
+
+      res.status(200).json(updatedOrder);
+    } catch (error) {
+      console.error('Error updating item in order:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
-
-    res.status(200).json(deleteOrder);
-  } catch (error) {
-    console.error('Error deleting order:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-},
-
+  },
 };
 
 export default ordersController;

@@ -84,6 +84,7 @@ app.post('/login', async (req, res) => {
       username: user.username,
       email: user.email,
       whatsapp: user.whatsapp,
+      image:user.image
     };
     console.log(userDataToSend,'userdata send,line 88')
     res.status(200).json({

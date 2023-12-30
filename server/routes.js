@@ -25,11 +25,12 @@ router.post("/postblogs", blogsController.createBlog);
 router.get("/getblogs", blogsController.getAllBlogs);
 router.delete("/deleteblogs/:id", blogsController.deleteBlog);
 
-router.post("/postorders", ordersController.createOrder);
-router.get("/getorders", ordersController.getAllOrders);
+router.post("/createOrder", ordersController.createOrder);
+router.post("/addItemToOrder/:orderId", ordersController.addItemToOrder);
+router.get("/getAllOrders", ordersController.getAllOrders);
 router.put("/update/:orderId", ordersController.updateOrder);
 router.patch("/update/:id", ordersController.updateOrder);
-router.delete('/delete/:orderId', ordersController.deleteOrder);
+router.delete('/deleteOrder/:id', ordersController.deleteOrder);
 
 router.post("/postgems", gemsController.createGem);
 router.get("/getgems", gemsController.getAllGems);
