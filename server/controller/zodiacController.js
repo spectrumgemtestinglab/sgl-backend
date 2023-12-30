@@ -1,4 +1,4 @@
-import Zodiac from '../model/zodiacModel.js';
+import Zodiac from '../model/ZodiacModel.js';
 import multer from 'multer';
 
 const storage = multer.memoryStorage();
