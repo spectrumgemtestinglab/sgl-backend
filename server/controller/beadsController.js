@@ -19,7 +19,8 @@ const beadsController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape } = req.body;
+        const { name, price, weight, colour, subtype, units, value, shape ,dimenensions,
+        transparency    ,  hardness  ,   microscopicexamination } = req.body;
 
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -27,11 +28,11 @@ const beadsController = {
 
         const image = req.file.buffer.toString('base64');
 
-        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape) {
+        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimenensions || !transparency || !hardness || !microscopicexamination) {
           return res.status(400).json({ error: 'All fields are required' });
         }
 
-        const beads = new Beads({ name, price, image, weight, colour, subtype, units, value, shape });
+        const beads = new Beads({ name, price, image, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination });
         const savedBeads = await beads.save();
 
         res.status(201).json(savedBeads);

@@ -1,6 +1,6 @@
 import Gems from "../model/gemsModel.js";
 import multer from "multer";
-import mongoose from "mongoose"; // Add this import
+import mongoose from "mongoose"; 
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -20,7 +20,7 @@ const gemsController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape } = req.body;
+        const { name, price, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination } = req.body;
   
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -32,7 +32,7 @@ const gemsController = {
           return res.status(400).json({ error: 'Gems name, price, weight, and colour are required' });
         }
   
-        const gems = new Gems({ name, price, image, weight, colour, subtype, units, value, shape });
+        const gems = new Gems({ name, price, image, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination });
         const savedGems = await gems.save();
   
         res.status(201).json(savedGems);
