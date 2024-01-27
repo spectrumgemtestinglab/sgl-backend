@@ -2,7 +2,7 @@ import Corals from '../model/coralsModel.js';
 import multer from 'multer';
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-//new changes added 5:29pm
+
 const coralsController = {
   getCorals: async (req, res) => {
     try {
@@ -18,7 +18,7 @@ const coralsController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape } = req.body;
+        const { name, price, weight, colour, subtype, units, value, shape, dimenensions, transparency, hardness, microscopicexamination } = req.body;
   
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -26,21 +26,37 @@ const coralsController = {
   
         const image = req.file.buffer.toString('base64');
   
-        if (!name || !price || !weight || !colour) {
-          return res.status(400).json({ error: 'Corals name, price, weight, and colour are required' });
+        if (!name || !price || !weight || !colour || !dimenensions || !transparency || !hardness || !microscopicexamination) {
+          return res.status(400).json({ error: 'All required fields must be provided' });
         }
   
-        // Include all required fields from your schema
-        const corals = new Corals({ name, price, weight, colour, image, subtype, units, value, shape });
-        const savedcorals = await corals.save();
+        // Create a JSON object based on the Mongoose model schema
+        const coralsData = {
+          name,
+          price,
+          weight,
+          colour,
+          image,
+          subtype,
+          units,
+          value,
+          shape,
+          dimenensions,
+          transparency,
+          hardness,
+          microscopicexamination
+        };
   
-        res.status(201).json(savedcorals);
+        // Include all required fields from your schema
+        const corals = new Corals(coralsData);
+        const savedCorals = await corals.save();
+  
+        res.status(201).json(savedCorals);
       } catch (error) {
         res.status(400).json({ error: error.message });
       }
     },
   ],
-  
 
   deleteCorals: async (req, res) => {
     try {
