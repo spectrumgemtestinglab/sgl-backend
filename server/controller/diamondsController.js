@@ -1,6 +1,4 @@
-
 import Diamonds from '../model/diamondsModel.js';
-
 import multer from 'multer';
 
 const storage = multer.memoryStorage();
@@ -21,27 +19,65 @@ const diamondsController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape } = req.body;
-
+        const {
+          name,
+          price,
+          weight,
+          colour,
+          subtype,
+          units,
+          value,
+          shape,
+          size,
+          clarity,
+          dimensions, // Corrected typo here
+          transparency,
+          hardness,
+          microscopicexamination,
+        } = req.body;
+  
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
         }
-
+  
         const image = req.file.buffer.toString('base64');
+  
+        // Use object destructuring for cleaner code
+        const diamondData = {
+          name,
+          price,
+          weight,
+          colour,
+          subtype,
+          units,
+          value,
+          shape,
+          size,
+          clarity,
+          dimensions, // Corrected typo here
+          transparency,
+          hardness,
+          microscopicexamination,
+          image,
+        };
+  
 
-        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape) {
+        const requiredFields = Object.values(diamondData);
+        if (requiredFields.some((field) => !field)) {
           return res.status(400).json({ error: 'All fields are required' });
         }
-
-        const diamond = new Diamonds({ name, price, weight, colour, subtype, units, value, shape, image });
+  
+        const diamond = new Diamonds(diamondData);
         const savedDiamond = await diamond.save();
-
+  
         res.status(201).json(savedDiamond);
       } catch (error) {
+        console.error(error);
         res.status(400).json({ error: error.message });
       }
     },
   ],
+  
 
   deleteDiamond: async (req, res) => {
     try {

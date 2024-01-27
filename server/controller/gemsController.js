@@ -28,7 +28,7 @@ const gemsController = {
   
         const image = req.file.buffer.toString('base64');
   
-        if (!name || !price || !weight || !colour) {
+        if (!name || !price || !weight || !colour || !subtype || !units  || !value || !shape || !dimenensions ||!transparency ||!hardness ||!microscopicexamination) {
           return res.status(400).json({ error: 'Gems name, price, weight, and colour are required' });
         }
   

@@ -19,7 +19,7 @@ const jewelryController = {
     upload.single('image'),
     async function (req, res) {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape } = req.body;
+        const { name, price, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination } = req.body;
 
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -27,11 +27,11 @@ const jewelryController = {
 
         const image = req.file.buffer.toString('base64');
 
-        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape) {
+        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimenensions || !transparency || !hardness || !microscopicexamination) {
           return res.status(400).json({ error: 'All fields are required' });
         }
 
-        const newJewelry = new Jewelry({ name, price, weight, colour, subtype, units, value, shape, image }); // Fix the model name here
+        const newJewelry = new Jewelry({ name, price, weight, colour, subtype, units, value, shape, image ,dimenensions,transparency,hardness,microscopicexamination}); // Fix the model name here
         const savedJewelry = await newJewelry.save();
 
         res.status(201).json(savedJewelry);
