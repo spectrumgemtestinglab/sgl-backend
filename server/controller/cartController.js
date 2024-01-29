@@ -1,6 +1,4 @@
-// controllers/cartController.js
 import Cart from '../model/cartModel.js'
-
 
 const cartController = {
   addToCart: async (req, res) => {
@@ -10,7 +8,7 @@ const cartController = {
 
       const item = await Item.findById(itemId);
       if (!item) {
-        return res.status(404).json({ error: "Item not found" });
+        return res.status(404).json({ error: 'Item not found' });
       }
 
       // Check if the user has an existing cart
@@ -20,7 +18,7 @@ const cartController = {
         // If no cart exists, create a new one for the user
         cart = await Cart.create({
           userId: req.user.id,
-          items: [{ itemId, quantity }]
+          items: [{ itemId, quantity }],
         });
       } else {
         // If a cart exists, check if the item is already in the cart
@@ -48,20 +46,21 @@ const cartController = {
 
   getCart: async (req, res) => {
     try {
-      // Find the cart associated with the logged-in user
+      
       const cart = await Cart.findOne({ userId: req.user.id }).populate(
-        "items.itemId"
+        'items.itemId'
       );
 
       if (!cart) {
-        return res.status(404).json({ error: "Cart not found" });
+        return res.status(404).json({ error: 'Cart not found' });
       }
 
       res.status(200).json(cart);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
-  }
+  },
+
 };
 
 export default cartController;

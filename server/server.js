@@ -175,6 +175,23 @@ app.delete('/deleteUser/:userId', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+
+  app.post('/logout', (req, res) => {
+    try {
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error destroying session:', err);
+          res.status(500).json({ error: 'Internal Server Error' });
+        } else {
+          res.status(200).json({ message: 'Logout successful' });
+        }
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+
 });
 
 
