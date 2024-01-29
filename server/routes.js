@@ -6,11 +6,13 @@ import diamondsController from './controller/diamondsController.js';
 import jewelryController from './controller/jewelryController.js';
 import pearlsController from './controller/pearlsController.js';
 import coralsController from './controller/coralsController.js';
-import cartsController from './controller/cartsController.js';
+import userOrderController from './controller/userOrderController.js'
 import beadsController from './controller/beadsController.js';
 import blogsController from './controller/blogsController.js';
 import zodiacController from './controller/zodiacController.js';
 import contactController from './controller/contactController.js';
+import astrologyGemsController from './controller/astrologyGemsController.js';
+import cartController from './controller/cartController.js';
 
 
 const router = express.Router();
@@ -57,9 +59,10 @@ router.post("/postcorals", coralsController.createCorals);
 router.get("/getcorals", coralsController.getCorals);
 router.delete("/deletecorals/:id", coralsController.deleteCorals);
 
-router.post("/postcarts", cartsController.createCart);
-router.get("/getcarts", cartsController.getAllCarts);
-router.delete("/deletecarts/:id", cartsController.deleteCart);
+router.post("/postuserorder", userOrderController.createUserOrder);
+router.get("/getuserorder", userOrderController.getAllUserOrders);
+router.delete("/deleteuserorder/:id", userOrderController.deleteUserOrder);
+
 
 router.post('/postzodiacstones', zodiacController.createZodiac);
 router.get("/getzodiacstones", zodiacController.getZodiac);
@@ -68,5 +71,12 @@ router.delete("/deletezodiacstones/:id", zodiacController.deleteZodiac);
 router.post("/postcontact",contactController.createContact)
 router.get("/getallcontact",contactController.getAllContact)
 router.delete("/deleteconatct/:id",contactController.deleteContact)
+
+router.post("/postastrologygems",astrologyGemsController.createAstrologyGems)
+router.get("/getallastrologygems",astrologyGemsController.getAllAstrologyGems)
+router.delete("deleteastrologygems/:id",astrologyGemsController.deleteAstrologyGems)
+
+router.post("/addToCart/:itemId", cartController.addToCart);
+router.get("/getCart", cartController.getCart);
 
 export default router;
