@@ -1,121 +1,119 @@
-//cartController.js
+import Cart from '../model/cartModel.js';
+import multer from 'multer';
+import mongoose from 'mongoose';
 
-import Cart from '../model/cartModel.js'
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const cartController = {
-  // Add item to cart
-  addToCart: async (req, res) => {
-    try {
-      // ... (previous cod
-
-      let cart = await Cart.findOne({ user: userId });
-
-      if (!cart) {
-        cart = new Cart({ user: userId, items: [] });
-      }
-
-      cart.items.push(cartItem);
-      cart.totalAmount += product.price * quantity;
-
-      await cart.save();
-
-      return res.status(201).json({ message: 'Item added to cart successfully', cart });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ error: 'Internal Server Error', details: error.message });
-    }
-  },
-
-
-  // Ge
   getCart: async (req, res) => {
     try {
-      const userId = req.user._id; // Adjust this based on your authentication setup
-
-      const cart = await Cart.findOne({ user: userId }).populate('items.item', 'name price');
-
-      if (!cart) {
-        return res.status(404).json({ message: 'Cart not found' });
-      }
-
-      return res.status(200).json(cart);
+      const cart = await Cart.find();
+      res.status(200).json(cart);
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error fetching cart:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   },
 
-  // Update item quantity in cart
-  updateCartItem: async (req, res) => {
+  createCart: [
+    upload.single('image'),
+    async (req, res) => {
+      try {
+        const {
+          id,
+          quantity,
+          name,
+          price,
+          weight,
+          colour,
+          units,
+          value,
+          shape,
+          dimensions,
+          transparency,
+          hardness,
+          microscopicexamination,
+          size,
+          clarity,
+          subtype
+        } = req.body;
+
+        if (!req.file) {
+          return res.status(400).json({ error: 'Image file is required' });
+        }
+
+        const image = req.file.buffer.toString('base64');
+
+        if (
+          !id ||
+          !quantity ||
+          !name ||
+          !price ||
+          !weight ||
+          !colour ||
+          !units ||
+          !value ||
+          !shape ||
+          !dimensions ||
+          !transparency ||
+          !hardness ||
+          !microscopicexamination
+        ) {
+          return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        const cart = new Cart({
+          id,
+          quantity,
+          name,
+          price,
+          weight,
+          colour,
+          units,
+          value,
+          shape,
+          dimensions,
+          transparency,
+          hardness,
+          microscopicexamination,
+          size,
+          clarity,
+          image,
+          subtype
+        });
+        const savedCart = await cart.save();
+
+        res.status(201).json(savedCart);
+      } catch (error) {
+        console.error('Error creating Cart:', error);
+        res.status(400).json({ error: 'Failed to create Cart', details: error.message });
+      }
+    },
+  ],
+
+  deleteCart: async (req, res) => {
     try {
-      const { cartItemId, quantity } = req.body;
+      const cartId = req.params.id;
 
-      const userId = req.user._id; // Adjust this based on your authentication setup
-
-      const cart = await Cart.findOne({ user: userId });
-
-      if (!cart) {
-        return res.status(404).json({ message: 'Cart not found' });
+      // Check if the provided ID is valid
+      if (!mongoose.Types.ObjectId.isValid(cartId)) {
+        return res.status(400).json({ error: 'Invalid cart ID' });
       }
 
-      const cartItem = cart.items.id(cartItemId);
+      console.log('Received Cart ID:', cartId);
 
-      if (!cartItem) {
-        return res.status(404).json({ message: 'Cart item not found' });
+      const deleteCart = await Cart.findByIdAndDelete(cartId);
+      console.log('Deleted cart:', deleteCart); // Add this line for debugging
+
+      if (!deleteCart) {
+        return res.status(404).json({ error: 'Cart not found' });
       }
 
-      const product = await Product.findById(cartItem.item);
-
-      if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
-      }
-
-      cart.totalAmount += (quantity - cartItem.quantity) * product.price;
-      cartItem.quantity = quantity;
-
-      await cart.save();
-
-      return res.status(200).json({ message: 'Cart item updated successfully', cart });
+      res.status(200).json({ message: 'cart deleted successfully', deletedGem: deleteCart });
     } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Internal Server Error' });
-    }
-  },
-
-  // Remove item from cart
-  removeFromCart: async (req, res) => {
-    try {
-      const { cartItemId } = req.params;
-
-      const userId = req.user._id; // Adjust this based on your authentication setup
-
-      const cart = await Cart.findOne({ user: userId });
-
-      if (!cart) {
-        return res.status(404).json({ message: 'Cart not found' });
-      }
-
-      const cartItem = cart.items.id(cartItemId);
-
-      if (!cartItem) {
-        return res.status(404).json({ message: 'Cart item not found' });
-      }
-
-      const product = await Product.findById(cartItem.item);
-
-      if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
-      }
-
-      cart.totalAmount -= cartItem.quantity * product.price;
-
-      cartItem.remove();
-      await cart.save();
-
-      return res.status(200).json({ message: 'Cart item removed successfully', cart });
-    } catch (error) {
-      console.error(error);
-      return res.status(500).json({ message: 'Internal Server Error' });
+      console.error('Error deleting cart:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   },
 };

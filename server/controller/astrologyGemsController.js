@@ -1,5 +1,5 @@
 import AstrologyGems from '../model/astrologyGemsModel.js';
-import Beads from '../model/beadsModel.js';
+
 import multer from 'multer';
 
 const storage = multer.memoryStorage();

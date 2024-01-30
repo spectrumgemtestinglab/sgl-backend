@@ -1,46 +1,64 @@
 // gemsJewellaryController.js
-import GemsJewellary from '../model/gemsJewellaryModel.js'
+import GemsJewellary from '../model/gemsJewellaryModel.js';
+import multer from 'multer';
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const gemsJewellaryController = {
-  createGem: async (req, res) => {
-    try {
-      const gemData = req.body;
-      const newGem = new GemsJewellary(gemData);
-      const savedGem = await newGem.save();
-
-      res.status(201).json(savedGem);
-    } catch (error) {
-      console.error('Error creating gem:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  },
-
   getAllGems: async (req, res) => {
     try {
       const gems = await GemsJewellary.find();
       res.status(200).json(gems);
     } catch (error) {
-      console.error('Error getting gems:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      res.status(500).json({ error: error.message });
     }
   },
+
+  createGem: [
+    upload.single('image'),
+    async (req, res) => {
+      try {
+        const { name, price, weight, colour, subtype, units, value, shape, dimensions, transparency, hardness, microscopicexamination } = req.body;
+
+        if (!req.file) {
+          return res.status(400).json({ error: 'Image file is required' });
+        }
+
+        const image = req.file.buffer.toString('base64');
+
+        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimensions || !transparency || !hardness || !microscopicexamination) {
+          return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        const gem = new GemsJewellary({ name, price, image, weight, colour, subtype, units, value, shape, dimensions, transparency, hardness, microscopicexamination });
+        const savedGem = await gem.save();
+
+        res.status(201).json(savedGem);
+      } catch (error) {
+        console.error('Error creating GemsJewellary:', error);
+        res.status(400).json({ error: 'Failed to create GemsJewellary', details: error.message });
+      }
+    }
+  ],
 
   deleteGem: async (req, res) => {
     try {
-      const gemId = req.params.id;
+      const { id } = req.params;
+      const gem = await GemsJewellary.findById(id);
 
-      const deletedGem = await GemsJewellary.findByIdAndDelete(gemId);
-
-      if (!deletedGem) {
+      if (!gem) {
         return res.status(404).json({ error: 'Gem not found' });
       }
 
+      await GemsJewellary.deleteOne({ _id: id });
+
       res.status(200).json({ message: 'Gem deleted successfully' });
     } catch (error) {
-      console.error('Error deleting gem:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error('Error deleting Gem:', error);
+      res.status(500).json({ error: 'Failed to delete Gem', details: error.message });
     }
-  },
+  }
 };
 
 export default gemsJewellaryController;
