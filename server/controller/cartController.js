@@ -1,7 +1,7 @@
 import Cart from '../model/cartModel.js';
 import multer from 'multer';
 import mongoose from 'mongoose';
-
+//
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -30,7 +30,7 @@ const cartController = {
           units,
           value,
           shape,
-          dimensions,
+          dimenensions,
           transparency,
           hardness,
           microscopicexamination,
@@ -55,7 +55,7 @@ const cartController = {
           !units ||
           !value ||
           !shape ||
-          !dimensions ||
+          !dimenensions ||
           !transparency ||
           !hardness ||
           !microscopicexamination
@@ -73,7 +73,7 @@ const cartController = {
           units,
           value,
           shape,
-          dimensions,
+          dimenensions,
           transparency,
           hardness,
           microscopicexamination,
