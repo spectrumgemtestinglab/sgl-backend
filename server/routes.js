@@ -86,6 +86,7 @@ router.delete("/deleteastrologygems/:id",astrologyGemsController.deleteAstrology
 
 router.post("/addToCart",cartController.createCart)
 router.get("getcart",cartController.getCart)
+router.delete("/deletecart/:id",cartController.deleteCart)
 
 export default router;
 
