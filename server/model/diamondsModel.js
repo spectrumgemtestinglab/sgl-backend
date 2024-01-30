@@ -6,14 +6,12 @@ const diamondsShema = Schema({
   price: { type: Number, required: true },
   weight: { type: Number, required: true },
   colour: { type: String, required: true },
-  subtype: { type: String, required: true },
   units: { type: String, required: true },
   value: { type: String, required: true },
   shape: { type: String, required: true },
   size:{type:Number,required:true},
   clarity:{type:String,required:true},
   dimensions:{type:String,required:true},
-  
   transparency:{type:String,required:true},
   hardness:{type:Number,required:true},
   microscopicexamination:{type:String,required:true}

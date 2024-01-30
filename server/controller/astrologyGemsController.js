@@ -1,4 +1,4 @@
-import AstrologyGems from '../model/astrologyGemsModel.js'
+import AstrologyGems from '../model/astrologyGemsModel.js';
 
 const astrologyGemsController = {
   createAstrologyGems: async (req, res) => {

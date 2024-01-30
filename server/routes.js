@@ -13,10 +13,9 @@ import zodiacController from './controller/zodiacController.js';
 import contactController from './controller/contactController.js';
 import astrologyGemsController from './controller/astrologyGemsController.js';
 import cartController from './controller/cartController.js';
-
+import gemsJewellaryController from './controller/gemsJewellaryController.js';
 
 const router = express.Router();
-
 
 
 router.post("/inventorypost", inventoryController.createInventoryItem);
@@ -72,11 +71,16 @@ router.post("/postcontact",contactController.createContact)
 router.get("/getallcontact",contactController.getAllContact)
 router.delete("/deleteconatct/:id",contactController.deleteContact)
 
-router.post("/postastrologygems",astrologyGemsController.createAstrologyGems)
-router.get("/getallastrologygems",astrologyGemsController.getAllAstrologyGems)
-router.delete("deleteastrologygems/:id",astrologyGemsController.deleteAstrologyGems)
-
 router.post("/addToCart/:itemId", cartController.addToCart);
 router.get("/getCart", cartController.getCart);
 
+router.post("/postgemjewellary",gemsJewellaryController.createGem)
+router.get("/getgemjewellary",gemsJewellaryController.getAllGems)
+router.delete("/deletegemjewellary/:id",gemsJewellaryController.deleteGem)
+
+router.post("/astrologygemspost",astrologyGemsController.createAstrologyGems)
+router.get("/getastrologygems",astrologyGemsController.createAstrologyGems)
+router.delete("/deleteastrologygems/:id",astrologyGemsController.deleteAstrologyGems)
+
 export default router;
+

@@ -18,7 +18,7 @@ const coralsController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape, dimenensions, transparency, hardness, microscopicexamination } = req.body;
+        const { name, price, weight, colour, units, value, shape, dimenensions, transparency, hardness, microscopicexamination } = req.body;
   
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -37,7 +37,6 @@ const coralsController = {
           weight,
           colour,
           image,
-          subtype,
           units,
           value,
           shape,
