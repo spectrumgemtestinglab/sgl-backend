@@ -71,15 +71,21 @@ router.post("/postcontact",contactController.createContact)
 router.get("/getallcontact",contactController.getAllContact)
 router.delete("/deleteconatct/:id",contactController.deleteContact)
 
-router.post("/addToCart/:itemId", cartController.addToCart);
+router.post("/addToCart", cartController.addToCart);
 router.get("/getCart", cartController.getCart);
+router.put("/updateCartItem", cartController.updateCartItem);  
+router.delete("/removeFromCart/:cartItemId", cartController.removeFromCart);  
 
 router.post("/postgemjewellary",gemsJewellaryController.createGem)
 router.get("/getgemjewellary",gemsJewellaryController.getAllGems)
 router.delete("/deletegemjewellary/:id",gemsJewellaryController.deleteGem)
 
+
+
 router.post("/astrologygemspost",astrologyGemsController.createAstrologyGems)
-router.get("/getastrologygems",astrologyGemsController.createAstrologyGems)
+
+router.get("/getastrologygems", astrologyGemsController.getAllAstrologyGems);
+
 router.delete("/deleteastrologygems/:id",astrologyGemsController.deleteAstrologyGems)
 
 export default router;

@@ -1,35 +1,78 @@
 import AstrologyGems from '../model/astrologyGemsModel.js';
+import Beads from '../model/beadsModel.js';
+import multer from 'multer';
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const astrologyGemsController = {
-  createAstrologyGems: async (req, res) => {
-    try {
-      const newAstrologyGems = await AstrologyGems.create(req.body);
-      res.status(201).json(newAstrologyGems);
-    } catch (error) {
-      res.status(400).json({ error: error.message });
-    }
-  },
+  createAstrologyGems: [
+    upload.single('image'),
+    async (req, res) => {
+      try {
+        const { name, price, weight, colour, subtype, units, value, shape, dimenensions, transparency, hardness, microscopicexamination } = req.body;
+
+        if (!req.file) {
+          return res.status(400).json({ error: 'Image file is required' });
+        }
+
+        const image = req.file.buffer.toString('base64');
+
+        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimenensions || !transparency || !hardness || !microscopicexamination) {
+          return res.status(400).json({ error: 'All fields are required' });
+        }
+
+        const astrologyGems = new AstrologyGems({
+          name,
+          price,
+          image,
+          weight,
+          colour,
+          subtype,
+          units,
+          value,
+          shape,
+          dimenensions,
+          transparency,
+          hardness,
+          microscopicexamination,
+        });
+
+        const savedAstrologyGems = await astrologyGems.save();
+
+        res.status(201).json(savedAstrologyGems);
+      } catch (error) {
+        console.error('Error creating AstrologyGems:', error);
+        res.status(400).json({ error: 'Failed to create AstrologyGems', details: error.message });
+      }
+    },
+  ],
 
   getAllAstrologyGems: async (req, res) => {
     try {
-      const astrologyGemsList = await AstrologyGems.find();
-      res.status(200).json(astrologyGemsList);
+      const astrologyGems = await AstrologyGems.find();
+      res.status(200).json(astrologyGems);
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('Error getting AstrologyGems:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
     }
   },
 
   deleteAstrologyGems: async (req, res) => {
     try {
-      const deletedAstrologyGems = await AstrologyGems.findByIdAndDelete(
-        req.params.id
-      );
-      if (!deletedAstrologyGems) {
-        return res.status(404).json({ error: 'Astrology Gems not found' });
+      const { id } = req.params;
+      const astrologyGems = await AstrologyGems.findById(id);
+
+      if (!astrologyGems) {
+        return res.status(404).json({ error: 'AstrologyGems not found' });
       }
-      res.status(200).json(deletedAstrologyGems);
+
+      await AstrologyGems.deleteOne({ _id: id });
+
+      res.status(200).json({ message: 'AstrologyGems deleted successfully' });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error('Error deleting AstrologyGems:', error);
+      res.status(500).json({ error: 'Failed to delete AstrologyGems', details: error.message });
     }
   },
 };
