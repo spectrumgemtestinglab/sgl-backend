@@ -61,6 +61,7 @@ router.delete("/deletecorals/:id", coralsController.deleteCorals);
 router.post("/postuserorder", userOrderController.createUserOrder);
 router.get("/getuserorder", userOrderController.getAllUserOrders);
 router.delete("/deleteuserorder/:id", userOrderController.deleteUserOrder);
+router.put('/user-orders/:id', userOrderController.updateUserOrder);
 
 
 router.post('/postzodiacstones', zodiacController.createZodiac);

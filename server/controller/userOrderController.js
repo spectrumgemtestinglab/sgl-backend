@@ -18,7 +18,23 @@ const userOrderController = {
       res.status(500).json({ error: error.message });
     }
   },
+  updateUserOrder: async (req, res) => {
+    try {
+      const updatedUserOrder = await UserOrders.findByIdAndUpdate(
+        req.params.id,
+        req.body,
+        { new: true }
+      );
 
+      if (!updatedUserOrder) {
+        return res.status(404).json({ error: 'User order not found' });
+      }
+
+      res.status(200).json(updatedUserOrder);
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  },
   deleteUserOrder: async (req, res) => {
     try {
       const deletedUserOrder = await UserOrders.findByIdAndDelete(req.params.id);
@@ -30,6 +46,7 @@ const userOrderController = {
       res.status(500).json({ error: error.message });
     }
   },
+  
 };
 
 export default userOrderController;

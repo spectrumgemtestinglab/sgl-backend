@@ -1,7 +1,8 @@
+// cartController.js
 import Cart from '../model/cartModel.js';
 import multer from 'multer';
 import mongoose from 'mongoose';
-//
+
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -21,7 +22,6 @@ const cartController = {
     async (req, res) => {
       try {
         const {
-          _id,
           quantity,
           name,
           price,
@@ -30,7 +30,7 @@ const cartController = {
           units,
           value,
           shape,
-          dimenensions,
+          dimensions,
           transparency,
           hardness,
           microscopicexamination,
@@ -38,6 +38,10 @@ const cartController = {
           clarity,
           subtype
         } = req.body;
+        
+
+        // Check if req.user is defined and has the username property
+        const username = req.user && req.user.username;
 
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -45,27 +49,13 @@ const cartController = {
 
         const image = req.file.buffer.toString('base64');
 
-        if (
-          !_id ||
-          !quantity ||
-          !name ||
-          !price ||
-          !weight ||
-          !colour ||
-          !units ||
-          !value ||
-          !shape ||
-          !dimenensions ||
-          !transparency ||
-          !hardness ||
-          !microscopicexamination
-        ) 
-        {
-          return res.status(400).json({ error: 'All fields are required :backend' });
+        // Check if required fields are missing
+        if (!username || !name || !price) {
+          return res.status(400).json({ error: 'Username, name, and price are required fields' });
         }
 
         const cart = new Cart({
-          _id,
+          username,
           quantity,
           name,
           price,
@@ -74,7 +64,7 @@ const cartController = {
           units,
           value,
           shape,
-          dimenensions,
+          dimensions,
           transparency,
           hardness,
           microscopicexamination,
@@ -83,6 +73,7 @@ const cartController = {
           image,
           subtype
         });
+
         const savedCart = await cart.save();
 
         res.status(201).json(savedCart);
@@ -97,21 +88,17 @@ const cartController = {
     try {
       const cartId = req.params.id;
 
-      // Check if the provided ID is valid
       if (!mongoose.Types.ObjectId.isValid(cartId)) {
         return res.status(400).json({ error: 'Invalid cart ID' });
       }
 
-      console.log('Received Cart ID:', cartId);
-
       const deleteCart = await Cart.findByIdAndDelete(cartId);
-      console.log('Deleted cart:', deleteCart); // Add this line for debugging
 
       if (!deleteCart) {
         return res.status(404).json({ error: 'Cart not found' });
       }
 
-      res.status(200).json({ message: 'cart deleted successfully', deletedGem: deleteCart });
+      res.status(200).json({ message: 'Cart deleted successfully', deletedCart: deleteCart });
     } catch (error) {
       console.error('Error deleting cart:', error);
       res.status(500).json({ error: 'Internal Server Error' });
