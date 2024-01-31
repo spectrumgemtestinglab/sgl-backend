@@ -89,8 +89,8 @@ router.get("/getastrologygems", astrologyGemsController.getAllAstrologyGems);
 router.delete("/deleteastrologygems/:id",astrologyGemsController.deleteAstrologyGems)
 
 router.post("/createcart",cartController.createCartItem)
-// router.get("/getallcart",cartController.getCart)
-// router.delete('/deletecart/:id',cartController.deleteCart)
+router.get("/getallcart",cartController.getAllCartItems)
+router.delete('/deletecart/:id',cartController.deleteCartItem)
 
 
 
