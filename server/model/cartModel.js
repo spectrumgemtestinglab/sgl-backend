@@ -2,7 +2,7 @@
 import { Schema, model } from "mongoose";
 
 const cart = new Schema({
-  _id: { type: String, required: true },
+  userIds: { type: String, required: true },
   quantity: { type: Number, required: false },
   image: { type: String, required: true },
   name: { type: String, required: true },
