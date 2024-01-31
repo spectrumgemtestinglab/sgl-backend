@@ -2,23 +2,23 @@
 import { Schema, model } from "mongoose";
 
 const cart = new Schema({
-  username: { type: String, required: false },
-  quantity: { type: Number, required: false },
-  image: { type: String, required: false },
-  name: { type: String, required: false },
-  price: { type: Number, required: false },
-  weight: { type: Number, required: false },
-  colour: { type: String, required: false },
-  units: { type: String, required: false },
-  value: { type: String, required: false },
-  shape: { type: String, required: false },
-  dimenensions: { type: String, required: false },
-  transparency: { type: String, required: false },
-  hardness: { type: Number, required: false },
-  microscopicexamination: { type: String, required: false },
-  size: { type: Number, required: false },
-  clarity: { type: String, required: false },
-  subtype:{type:String,required:false}
+  username: { type: String, required: true },
+  quantity: { type: Number, required: true },
+  image: { type: String, required: true },
+  name: { type: String, required: true },
+  price: { type: Number, required: true },
+  weight: { type: Number, required: true },
+  colour: { type: String, required: true },
+  units: { type: String, required: true },
+  value: { type: String, required: true },
+  shape: { type: String, required: true },
+  dimenensions: { type: String, required: true },
+  transparency: { type: String, required: true },
+  hardness: { type: Number, required: true },
+  microscopicexamination: { type: String, required: true },
+  size: { type: Number, required: true },
+  clarity: { type: String, required: true },
+  subtype:{type:String,required:true}
 });
 
 const Cart = model("Cart", cart);

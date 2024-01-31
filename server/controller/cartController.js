@@ -1,4 +1,3 @@
-// cartController.js
 import Cart from '../model/cartModel.js';
 import multer from 'multer';
 import mongoose from 'mongoose';
@@ -39,7 +38,6 @@ const cartController = {
           subtype
         } = req.body;
         
-
         // Check if req.user is defined and has the username property
         const username = req.user && req.user.username;
 
@@ -95,7 +93,7 @@ const cartController = {
       const deleteCart = await Cart.findByIdAndDelete(cartId);
 
       if (!deleteCart) {
-        return res.status(404).json({ error: 'Cart not found' });
+        return res.status  (404).json({ error: 'Cart not found' });
       }
 
       res.status(200).json({ message: 'Cart deleted successfully', deletedCart: deleteCart });
