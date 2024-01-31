@@ -2,8 +2,8 @@
 import { Schema, model } from "mongoose";
 
 const cart = new Schema({
-  username: { type: String, required: true },
-  quantity: { type: Number, required: true },
+  _id: { type: String, required: true },
+  quantity: { type: Number, required: false },
   image: { type: String, required: true },
   name: { type: String, required: true },
   price: { type: Number, required: true },
@@ -16,9 +16,9 @@ const cart = new Schema({
   transparency: { type: String, required: true },
   hardness: { type: Number, required: true },
   microscopicexamination: { type: String, required: true },
-  size: { type: Number, required: true },
-  clarity: { type: String, required: true },
-  subtype:{type:String,required:true}
+  size: { type: Number, required: false },
+  clarity: { type: String, required: false },
+  subtype:{type:String,required:false}
 });
 
 const Cart = model("Cart", cart);

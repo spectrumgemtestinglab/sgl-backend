@@ -9,7 +9,6 @@ import bcrypt from 'bcryptjs';
 import Login from './Model.js';
 
 
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -24,7 +23,6 @@ app.use(express.json({ limit: '10mb' }));
 connectToMongoDB();
 app.use(json());
 app.use('/', router);
-
 
 app.post('/signup', async (req, res) => {
   try {

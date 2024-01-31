@@ -12,9 +12,12 @@ import blogsController from './controller/blogsController.js';
 import zodiacController from './controller/zodiacController.js';
 import contactController from './controller/contactController.js';
 import astrologyGemsController from './controller/astrologyGemsController.js';
-import cartController from './controller/cartController.js'
 import gemsJewellaryController from './controller/gemsJewellaryController.js';
 import chandraController from './controller/chandraControler.js';
+import cartController from './controller/cartController.js';
+
+
+
 const router = express.Router();
 
 
@@ -85,9 +88,11 @@ router.get("/getastrologygems", astrologyGemsController.getAllAstrologyGems);
 
 router.delete("/deleteastrologygems/:id",astrologyGemsController.deleteAstrologyGems)
 
-router.post("/addToCart",cartController.createCart)
-router.get("/getcart",cartController.getCart)
-router.delete("/deletecart/:id",cartController.deleteCart)
+router.post("/createcart",cartController.createCartItem)
+// router.get("/getallcart",cartController.getCart)
+// router.delete('/deletecart/:id',cartController.deleteCart)
+
+
 
 router.post('/createChandra', chandraController.createChandra);
 router.get('/getAllChandra', chandraController.getAllChandra);
@@ -96,7 +101,6 @@ router.put('/updateChandra/:id', chandraController.updateChandra);
 router.delete('/deleteChandra/:id', chandraController.deleteChandra);
 router.post('/addToNewChandra/:id', chandraController.addToNewChandra);
 router.put('/updateItemInChandra/:id/:itemId', chandraController.updateItemInChandra);
-
 
 export default router;
 
