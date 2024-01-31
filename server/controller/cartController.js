@@ -21,7 +21,7 @@ const cartController = {
     async (req, res) => {
       try {
         const {
-          id,
+          _id,
           quantity,
           name,
           price,
@@ -46,7 +46,7 @@ const cartController = {
         const image = req.file.buffer.toString('base64');
 
         if (
-          !id ||
+          !_id ||
           !quantity ||
           !name ||
           !price ||
@@ -59,12 +59,13 @@ const cartController = {
           !transparency ||
           !hardness ||
           !microscopicexamination
-        ) {
-          return res.status(400).json({ error: 'All fields are required' });
+        ) 
+        {
+          return res.status(400).json({ error: 'All fields are required :backend' });
         }
 
         const cart = new Cart({
-          id,
+          _id,
           quantity,
           name,
           price,
