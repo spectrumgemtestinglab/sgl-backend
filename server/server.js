@@ -7,23 +7,17 @@ import { json } from 'express';
 import { v4 as uuidv4 } from 'uuid'
 import bcrypt from 'bcryptjs';
 import Login from './Model.js';
-
+import bodyParser from 'body-parser';
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 2000;
-
-
 app.use(cors());
-
-
-
-
 app.use(express.json({ limit: '10mb' })); 
 connectToMongoDB();
 app.use(json());
 app.use('/', router);
-
+app.use(bodyParser.json());
 app.post('/signup', async (req, res) => {
   try {
     const { username, email, password, whatsapp, imageBase64 } = req.body;
