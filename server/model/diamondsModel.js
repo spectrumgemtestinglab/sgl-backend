@@ -11,7 +11,8 @@ const diamondsShema = Schema({
   shape: { type: String, required: true },
   size:{type:Number,required:true},
   clarity:{type:String,required:true},
-  dimensions:{type:String,required:true},
+  dimenensions:{type:String,required:true},
+  
   transparency:{type:String,required:true},
   hardness:{type:Number,required:true},
   microscopicexamination:{type:String,required:true}
