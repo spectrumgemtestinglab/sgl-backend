@@ -8,15 +8,6 @@ const userOrderSchema = Schema({
   username: { type: String, required: true },
   date: { type: Date, required: true },
   address: { type: String, required: true },
-  orderId: { type: String, required: true },
-  items: [
-    {
-      productId: { type: String, required: true },
-      quantity: { type: Number, required: true },
-      price: { type: Number, required: true },
-      // Add more fields if needed
-    },
-  ],
 });
 
 const UserOrders = model('UserOrders', userOrderSchema);
