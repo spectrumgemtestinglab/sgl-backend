@@ -13,8 +13,8 @@ import zodiacController from './controller/zodiacController.js';
 import contactController from './controller/contactController.js';
 import astrologyGemsController from './controller/astrologyGemsController.js';
 import gemsJewellaryController from './controller/gemsJewellaryController.js';
-import chandraController from './controller/chandraControler.js';
 import cartController from './controller/cartController.js';
+import whishlistController from './controller/whishlistController.js';
 
 
 
@@ -92,15 +92,11 @@ router.post("/createcart",cartController.createCartItem)
 router.get("/getallcart",cartController.getAllCartItems)
 router.delete('/deletecart/:id',cartController.deleteCartItem)
 
+router.post("/createwhishlist",whishlistController.createWhishlist)
+router.get("/getwhishlist",whishlistController.getAllWhishlist)
+router.delete('/deletewhishlist/:id',whishlistController.deleteWhishlist)
 
 
-router.post('/createChandra', chandraController.createChandra);
-router.get('/getAllChandra', chandraController.getAllChandra);
-router.get('/editChandra/:id', chandraController.editChandra);
-router.put('/updateChandra/:id', chandraController.updateChandra);
-router.delete('/deleteChandra/:id', chandraController.deleteChandra);
-router.post('/addToNewChandra/:id', chandraController.addToNewChandra);
-router.put('/updateItemInChandra/:id/:itemId', chandraController.updateItemInChandra);
 
 export default router;
 
