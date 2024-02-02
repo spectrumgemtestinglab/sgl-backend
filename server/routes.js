@@ -15,7 +15,9 @@ import astrologyGemsController from './controller/astrologyGemsController.js';
 import gemsJewellaryController from './controller/gemsJewellaryController.js';
 import cartController from './controller/cartController.js';
 import whishlistController from './controller/whishlistController.js';
-
+import chandraController from './controller/chandraControler.js';
+import multer from 'multer'
+const upload = multer({ dest: 'uploads/' });
 
 
 const router = express.Router();
@@ -96,6 +98,9 @@ router.post("/createwhishlist",whishlistController.createWhishlist)
 router.get("/getwhishlist",whishlistController.getAllWhishlist)
 router.delete('/deletewhishlist/:id',whishlistController.deleteWhishlist)
 
+router.post('/postchandra', upload.array('images'), chandraController.createChandra);
+router.get('/getallchandra', chandraController.getAllChandra);
+router.delete('/deletechandra/:id', chandraController.deleteChandra);
 
 
 export default router;
