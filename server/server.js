@@ -18,9 +18,10 @@ connectToMongoDB();
 app.use(json());
 app.use('/', router);
 app.use(bodyParser.json());
+
 app.post('/signup', async (req, res) => {
   try {
-    const { username, email, password, whatsapp, imageBase64 } = req.body;
+    const { username, email, password, whatsapp, imageBase64,address } = req.body;
 
     const existingUser = await Login.findOne({ email });
 
@@ -39,6 +40,7 @@ app.post('/signup', async (req, res) => {
       password: hashedPassword,
       whatsapp,
       image: imageBuffer.toString('base64'), 
+      address
     });
 
     await newUser.save();
@@ -74,7 +76,8 @@ app.post('/login', async (req, res) => {
       username: user.username,
       email: user.email,
       whatsapp: user.whatsapp,
-      image:user.image
+      image:user.image,
+      address:user.address
     };
     console.log(userDataToSend,'userdata send,line 88')
     res.status(200).json({
@@ -112,7 +115,6 @@ app.post('/reset-password/:resetToken', async (req, res) => {
       return res.status(401).json({ error: 'Invalid or expired reset token' });
     }
 
-    
     const hashedPassword = await bcrypt.hash(newPassword, 10);
     user.password = hashedPassword;
     user.resetToken = null;
@@ -121,10 +123,11 @@ app.post('/reset-password/:resetToken', async (req, res) => {
 
     res.status(200).json({ message: 'Password reset successful' });
   } catch (error) {
-    console.error(error);
+    console.error('Error resetting password:', error); // Log the error
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
 
 app.post('/forgot-password', async (req, res) => {
   try {
