@@ -8,7 +8,8 @@ const userOrderSchema = Schema({
   username: { type: String, required: true },
   date: { type: Date, required: true },
   address: { type: String, required: true },
-  status:{type:String,required:true}
+  status:{type:String,required:true},
+  userID:{type:String,required:true}
 });
 
 const UserOrders = model('UserOrders', userOrderSchema);
