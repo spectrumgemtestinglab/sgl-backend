@@ -72,7 +72,7 @@ app.post('/login', async (req, res) => {
       email: user.email,
       whatsapp: user.whatsapp,
       image: user.image,
-      address: user.address,
+      address:user.address,
     };
     res.status(200).json({
       message: 'Login successful',
@@ -146,6 +146,38 @@ app.delete('/deleteUser/:userId', async (req, res) => {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   });
+});
+
+app.put('/editUser/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const { username, email, whatsapp, imageBase64, address,password } = req.body;
+
+    // Implement your logic to update user details here
+    const updatedUser = await Login.findByIdAndUpdate(
+      userId,
+      {
+        $set: {
+          username,
+          email,
+          whatsapp,
+          image: Buffer.from(imageBase64, 'base64').toString('base64'),
+          address,
+          password
+        },
+      },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
 
 let server;
