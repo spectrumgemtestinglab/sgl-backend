@@ -1,7 +1,6 @@
-// gemsJewellaryController.js
 import GemsJewellary from '../model/gemsJewellaryModel.js';
 import multer from 'multer';
-
+//
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
@@ -19,7 +18,7 @@ const gemsJewellaryController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape, dimensions, transparency, hardness, microscopicexamination } = req.body;
+        const { name, price, weight, colour, subtype, units, value, shape, dimenensions, transparency, hardness, microscopicexamination } = req.body;
 
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -27,11 +26,11 @@ const gemsJewellaryController = {
 
         const image = req.file.buffer.toString('base64');
 
-        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimensions || !transparency || !hardness || !microscopicexamination) {
+        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimenensions || !transparency || !hardness || !microscopicexamination) {
           return res.status(400).json({ error: 'All fields are required' });
         }
 
-        const gem = new GemsJewellary({ name, price, image, weight, colour, subtype, units, value, shape, dimensions, transparency, hardness, microscopicexamination });
+        const gem = new GemsJewellary({ name, price, image, weight, colour, subtype, units, value, shape, dimenensions, transparency, hardness, microscopicexamination });
         const savedGem = await gem.save();
 
         res.status(201).json(savedGem);

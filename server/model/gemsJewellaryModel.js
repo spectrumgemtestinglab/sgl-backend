@@ -1,4 +1,4 @@
-// beadsModel.js
+
 import { Schema, model } from "mongoose";
 
 const gemsJewellary = new Schema({
