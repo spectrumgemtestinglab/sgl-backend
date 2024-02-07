@@ -183,7 +183,6 @@ app.delete('/deleteUser/:userId', async (req, res) => {
 //   }
 // });
 
-
 app.put('/editUser/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
@@ -219,10 +218,9 @@ app.put('/editUser/:userId', async (req, res) => {
     res.status(200).json({ message: 'User updated successfully', user: updatedUser });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
-
 let server;
 
 const startServer = async () => {
