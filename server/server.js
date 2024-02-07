@@ -52,19 +52,6 @@ app.post('/signup', async (req, res) => {
 });
 
 
-// app.post('/signup', async (req, res) => {
-//   try {
-//     const { username, email, password, whatsapp, imageBase64, address } = req.body;
-
-//     console.log('Received data:', { username, email, password, whatsapp, imageBase64, address });
-
-//     // ... rest of the code
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ error: 'Internal Server Error' });
-//   }
-// });
-
 
 app.post('/login', async (req, res) => {
   try {
@@ -168,9 +155,8 @@ app.delete('/deleteUser/:userId', async (req, res) => {
 app.put('/editUser/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
-    const { username, email, whatsapp, imageBase64, address,password } = req.body;
+    const { username, email, whatsapp, imageBase64, address, password } = req.body;
 
-    // Implement your logic to update user details here
     const updatedUser = await Login.findByIdAndUpdate(
       userId,
       {
