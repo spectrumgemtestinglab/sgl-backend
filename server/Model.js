@@ -7,6 +7,7 @@ const loginSchema = new Schema({
   password: { type: String, required: true },
   whatsapp: { type: String },
   image: { type: String,required:true }, 
+  address:{type:String,required:true},
   resetToken: String,
   resetTokenExpiration: Date,
 });

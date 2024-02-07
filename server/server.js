@@ -21,7 +21,7 @@ app.use(bodyParser.json());
 app.post('/signup', async (req, res) => {
   try {
     const { username, email, password, whatsapp, imageBase64, address } = req.body;
-
+      console.log('Received data:', { username, email, password, whatsapp, imageBase64, address });
     const existingUser = await Login.findOne({ email });
 
     if (existingUser) {
@@ -39,6 +39,7 @@ app.post('/signup', async (req, res) => {
       whatsapp,
       image: imageBuffer.toString('base64'),
       address,
+     
     });
 
     await newUser.save();
@@ -49,6 +50,21 @@ app.post('/signup', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
+
+
+// app.post('/signup', async (req, res) => {
+//   try {
+//     const { username, email, password, whatsapp, imageBase64, address } = req.body;
+
+//     console.log('Received data:', { username, email, password, whatsapp, imageBase64, address });
+
+//     // ... rest of the code
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
 
 app.post('/login', async (req, res) => {
   try {
@@ -73,6 +89,7 @@ app.post('/login', async (req, res) => {
       whatsapp: user.whatsapp,
       image: user.image,
       address:user.address,
+      
     };
     res.status(200).json({
       message: 'Login successful',
