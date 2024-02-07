@@ -152,29 +152,69 @@ app.delete('/deleteUser/:userId', async (req, res) => {
   });
 });
 
+// app.put('/editUser/:userId', async (req, res) => {
+//   try {
+//     const { userId } = req.params;
+//     const { username, email, whatsapp, imageBase64, address, password } = req.body;
+
+//     const updatedUser = await Login.findByIdAndUpdate(
+//       userId,
+//       {
+//         $set: {
+//           username,
+//           email,
+//           whatsapp,
+//           image: Buffer.from(imageBase64, 'base64').toString('base64'),
+//           address,
+//           password
+//         },
+//       },
+//       { new: true }
+//     );
+
+//     if (!updatedUser) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+
+//     res.status(200).json({ message: 'User updated successfully', user: updatedUser });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+
 app.put('/editUser/:userId', async (req, res) => {
   try {
     const { userId } = req.params;
-    const { username, email, whatsapp, imageBase64, address, password } = req.body;
+    const { username, email, whatsapp, imageBase64, address, currentPassword, newPassword } = req.body;
 
-    const updatedUser = await Login.findByIdAndUpdate(
-      userId,
-      {
-        $set: {
-          username,
-          email,
-          whatsapp,
-          image: Buffer.from(imageBase64, 'base64').toString('base64'),
-          address,
-          password
-        },
-      },
-      { new: true }
-    );
+    const user = await Login.findById(userId);
 
-    if (!updatedUser) {
+    if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }
+
+    // Compare the entered current password with the stored hashed password
+    const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: 'Invalid current password' });
+    }
+
+    // Hash the new password
+    const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+    // Update user data
+    user.username = username;
+    user.email = email;
+    user.whatsapp = whatsapp;
+    user.image = Buffer.from(imageBase64, 'base64').toString('base64');
+    user.address = address;
+    user.password = hashedNewPassword;
+
+    // Save the updated user
+    const updatedUser = await user.save();
 
     res.status(200).json({ message: 'User updated successfully', user: updatedUser });
   } catch (error) {
