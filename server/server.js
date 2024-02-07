@@ -39,7 +39,7 @@ app.post('/signup', async (req, res) => {
       whatsapp,
       image: imageBuffer.toString('base64'),
       address,
-     
+      password
     });
 
     await newUser.save();
@@ -76,7 +76,7 @@ app.post('/login', async (req, res) => {
       whatsapp: user.whatsapp,
       image: user.image,
       address:user.address,
-      
+      password:user.password
     };
     res.status(200).json({
       message: 'Login successful',
