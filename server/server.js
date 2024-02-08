@@ -18,10 +18,81 @@ app.use(json());
 app.use('/', router);
 app.use(bodyParser.json());
 
+
+//   try {
+//     const { username, email, password, whatsapp, imageBase64, address } = req.body;
+//       console.log('Received data:', { username, email, password, whatsapp, imageBase64, address });
+//     const existingUser = await Login.findOne({ email });
+
+//     if (existingUser) {
+//       return res.status(400).json({ error: 'User with this email already exists' });
+//     }
+
+//     const hashedPassword = await bcrypt.hash(password, 10);
+
+//     const imageBuffer = Buffer.from(imageBase64, 'base64');
+
+//     const newUser = new Login({
+//       username,
+//       email,
+//       password: hashedPassword,
+//       whatsapp,
+//       image: imageBuffer.toString('base64'),
+//       address,
+//       password
+//     });
+
+//     await newUser.save();
+
+//     res.status(201).json({ message: 'User registered successfully' });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+
+
+// app.post('/login', async (req, res) => {
+//   try {
+//     const { email, password } = req.body;
+
+//     const user = await Login.findOne({ email });
+
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+
+//     const isPasswordValid = await bcrypt.compare(password, user.password);
+
+//     if (!isPasswordValid) {
+//       return res.status(401).json({ error: 'Invalid password' });
+//     }
+
+//     const userDataToSend = {
+//       _id: user._id,
+//       username: user.username,
+//       email: user.email,
+//       whatsapp: user.whatsapp,
+//       image: user.image,
+//       address:user.address,
+//       password:user.password
+//     };
+//     res.status(200).json({
+//       message: 'Login successful',
+//       user: userDataToSend,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// });
+
+
 app.post('/signup', async (req, res) => {
   try {
     const { username, email, password, whatsapp, imageBase64, address } = req.body;
-      console.log('Received data:', { username, email, password, whatsapp, imageBase64, address });
+
     const existingUser = await Login.findOne({ email });
 
     if (existingUser) {
@@ -39,7 +110,6 @@ app.post('/signup', async (req, res) => {
       whatsapp,
       image: imageBuffer.toString('base64'),
       address,
-      password
     });
 
     await newUser.save();
@@ -50,8 +120,6 @@ app.post('/signup', async (req, res) => {
     res.status(500).json({ error: 'Internal Server Error' });
   }
 });
-
-
 
 app.post('/login', async (req, res) => {
   try {
@@ -75,8 +143,7 @@ app.post('/login', async (req, res) => {
       email: user.email,
       whatsapp: user.whatsapp,
       image: user.image,
-      address:user.address,
-      password:user.password
+      address: user.address,
     };
     res.status(200).json({
       message: 'Login successful',
