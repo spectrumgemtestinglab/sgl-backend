@@ -9,7 +9,8 @@ const userOrderSchema = Schema({
   date: { type: Date, required: true },
   address: { type: String, required: true },
   status:{type:String,required:true},
-  userID:{type:String,required:true}
+  userID:{type:String,required:true},
+  number:{type:String,required:true}
 });
 
 const UserOrders = model('UserOrders', userOrderSchema);
