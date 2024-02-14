@@ -1,6 +1,7 @@
-import Gems from "../model/gemsModel.js";
+
 import multer from "multer";
-import mongoose from "mongoose"; 
+import mongoose from "mongoose";
+import Gems from "../model/gemsModel.js";
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -17,49 +18,47 @@ const gemsController = {
   },
 
   createGem: [
-    upload.single('image'),
+    upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, shape,dimenensions,description,certificate, } = req.body;
-    
-    
-        if (!req.file) {
-          return res.status(400).json({ error: 'Image file is required' });
+        const { name, price, weight, colour, subtype, units, shape, dimenensions, description } = req.body;
+
+        if (!req.files || !req.files['image1'] || !req.files['image2']) {
+          return res.status(400).json({ error: 'Both image files are required' });
         }
-  
-        const image = req.file.buffer.toString('base64');
-  
-        if (!name || !price || !weight || !colour || !subtype || !units  || !value || !shape || !dimenensions || !description || !certificate) {
-          return res.status(400).json({ error: 'Gems name, price, weight, and colour are required' });
+
+        const image1 = req.files['image1'][0].buffer.toString('base64');
+        const image2 = req.files['image2'][0].buffer.toString('base64');
+
+        if (!name || !price || !weight || !colour || !subtype || !units || !shape || !dimenensions || !description) {
+          return res.status(400).json({ error: 'Gems name, price, weight, colour, subtype, units, shape, dimensions, and description are required' });
         }
-  
-        const gems = new Gems({ name, price, image, weight, colour, subtype, units, value, shape,dimenensions,description,certificate });
+
+        const gems = new Gems({ name, price, weight, colour, subtype, units, shape, dimenensions, description, image1, image2 });
         const savedGems = await gems.save();
-  
+
         res.status(201).json(savedGems);
       } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.error('Error creating gem:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
       }
     }
   ],
-  
+
   deleteGem: async (req, res) => {
     try {
       const gemId = req.params.id;
-  
-      // Check if the provided ID is valid
+
       if (!mongoose.Types.ObjectId.isValid(gemId)) {
         return res.status(400).json({ error: 'Invalid Gem ID' });
       }
-  
-      console.log('Received Gem ID:', gemId);
-  
+
       const deletedGem = await Gems.findByIdAndDelete(gemId);
-      console.log('Deleted Gem:', deletedGem); 
+
       if (!deletedGem) {
         return res.status(404).json({ error: 'Gem not found' });
       }
-  
+
       res.status(200).json({ message: 'Gem deleted successfully', deletedGem });
     } catch (error) {
       console.error('Error deleting gem:', error);
