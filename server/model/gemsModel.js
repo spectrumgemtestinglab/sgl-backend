@@ -8,15 +8,16 @@ const gemsSchema = Schema({
   colour: { type: String, required: true },
   subtype: { type: String, required: true },
   units: { type: String, required: true },
-  value: { type: String, required: true },
   shape: { type: String, required: true },
   dimenensions:{type:String,required:true},
-  transparency:{type:String,required:true},
-  hardness:{type:Number,required:true},
-  microscopicexamination:{type:String,required:true}
+  discription:{type:String,required:true},
+  certificate:{type:String,required:true}
 });
 
 
 const Gems = model("Gems", gemsSchema);
 
 export default Gems;
+
+
+

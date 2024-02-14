@@ -20,19 +20,20 @@ const gemsController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination } = req.body;
-  
+        const { name, price, weight, colour, subtype, units, shape,dimenensions,description,certificate, } = req.body;
+    
+    
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
         }
   
         const image = req.file.buffer.toString('base64');
   
-        if (!name || !price || !weight || !colour || !subtype || !units  || !value || !shape || !dimenensions ||!transparency ||!hardness ||!microscopicexamination) {
+        if (!name || !price || !weight || !colour || !subtype || !units  || !value || !shape || !dimenensions || !description || !certificate) {
           return res.status(400).json({ error: 'Gems name, price, weight, and colour are required' });
         }
   
-        const gems = new Gems({ name, price, image, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination });
+        const gems = new Gems({ name, price, image, weight, colour, subtype, units, value, shape,dimenensions,description,certificate });
         const savedGems = await gems.save();
   
         res.status(201).json(savedGems);
@@ -54,8 +55,7 @@ const gemsController = {
       console.log('Received Gem ID:', gemId);
   
       const deletedGem = await Gems.findByIdAndDelete(gemId);
-      console.log('Deleted Gem:', deletedGem); // Add this line for debugging
-  
+      console.log('Deleted Gem:', deletedGem); 
       if (!deletedGem) {
         return res.status(404).json({ error: 'Gem not found' });
       }
