@@ -94,6 +94,7 @@ router.delete("/deleteastrologygems/:id",astrologyGemsController.deleteAstrology
 router.post("/createcart",cartController.createCartItem)
 router.get("/getallcart",cartController.getAllCartItems)
 router.delete('/deletecart/:id',cartController.deleteCartItem)
+router.delete("/deleteAllCartItems", cartController.deleteAllCartItems);
 
 router.post("/createwhishlist",whishlistController.createWhishlist)
 router.get("/getwhishlist",whishlistController.getAllWhishlist)
