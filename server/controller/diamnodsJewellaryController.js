@@ -1,4 +1,4 @@
-import Jewelry from '../model/jewelryModel.js'
+import Jewelry from '../model/diamondsJewellaryModel.js'
 import multer from 'multer';
 
 const storage = multer.memoryStorage();

@@ -3,7 +3,7 @@ import inventoryController from './controller/inventoryController.js';
 import ordersController from './controller/ordersController.js';
 import gemsController from './controller/gemsController.js';
 import diamondsController from './controller/diamondsController.js';
-import jewelryController from './controller/jewelryController.js';
+import jewelryController from './controller/diamnodsJewellaryController.js';
 import pearlsController from './controller/pearlsController.js';
 import coralsController from './controller/coralsController.js';
 import userOrderController from './controller/userOrderController.js'
@@ -12,11 +12,12 @@ import blogsController from './controller/blogsController.js';
 import zodiacController from './controller/zodiacController.js';
 import contactController from './controller/contactController.js';
 import astrologyGemsController from './controller/astrologyGemsController.js';
-import gemsJewellaryController from './controller/gemsJewellaryController.js';
+import gemsJewellaryController from './controller/looseDiamondsController.js';
 import cartController from './controller/cartController.js';
 import whishlistController from './controller/whishlistController.js';
 import chandraController from './controller/chandraControler.js';
 import multer from 'multer'
+import looseDiamondsController from './controller/looseDiamondsController.js';
 const upload = multer({ dest: 'uploads/' });
 
 
@@ -78,9 +79,9 @@ router.get("/getallcontact",contactController.getAllContact)
 router.delete("/deleteconatct/:id",contactController.deleteContact)
 
 
-router.post("/postgemjewellary",gemsJewellaryController.createGem)
-router.get("/getgemjewellary",gemsJewellaryController.getAllGems)
-router.delete("/deletegemjewellary/:id",gemsJewellaryController.deleteGem)
+router.post("/postloosediamonds",looseDiamondsController.createDiamonds)
+router.get("/getloosedimonds",looseDiamondsController.getAllDiamonds)
+router.delete("/deletediamonds/:id",looseDiamondsController.deleteDiamonds)
 
 
 
