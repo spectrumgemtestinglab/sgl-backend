@@ -15,31 +15,34 @@ const jewelryController = {
     }
   },
 
-  createjewelry: [
-    upload.single('image'),
-    async function (req, res) {
+  createJewellary: [
+    upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),
+    async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination } = req.body;
+        const { name, price, weight, colour, subtype, units, shape, dimenensions, description } = req.body;
 
-        if (!req.file) {
-          return res.status(400).json({ error: 'Image file is required' });
+        if (!req.files || !req.files['image1'] || !req.files['image2']) {
+          return res.status(400).json({ error: 'Both image files are required' });
         }
 
-        const image = req.file.buffer.toString('base64');
+        const image1 = req.files['image1'][0].buffer.toString('base64');
+        const image2 = req.files['image2'][0].buffer.toString('base64');
 
-        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimenensions || !transparency || !hardness || !microscopicexamination) {
-          return res.status(400).json({ error: 'All fields are required' });
+        if (!name || !price || !weight || !colour || !subtype || !units || !shape || !dimenensions || !description) {
+          return res.status(400).json({ error: 'Jewellary name, price, weight, colour, subtype, units, shape, dimensions, and description are required' });
         }
 
-        const newJewelry = new Jewelry({ name, price, weight, colour, subtype, units, value, shape, image ,dimenensions,transparency,hardness,microscopicexamination}); // Fix the model name here
-        const savedJewelry = await newJewelry.save();
+        const jewellary = new Jewelry({ name, price, weight, colour, subtype, units, shape, dimenensions, description, image1, image2 });
+        const savedJewellary = await jewellary.save();
 
-        res.status(201).json(savedJewelry);
+        res.status(201).json(savedJewellary);
       } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.error('Error creating Jewellary:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
       }
     }
   ],
+
 
   deletejewelry: async function (req, res) {
     try {
@@ -61,3 +64,6 @@ const jewelryController = {
 };
 
 export default jewelryController;
+
+
+

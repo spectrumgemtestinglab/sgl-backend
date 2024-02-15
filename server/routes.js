@@ -52,7 +52,7 @@ router.post("/postdiamonds", diamondsController.createDiamond);
 router.get("/getdiamonds", diamondsController.getAllDiamonds);
 router.delete("/deletediamonds/:id", diamondsController.deleteDiamond);
 
-router.post("/postjewelry", jewelryController.createjewelry);
+router.post("/postjewelry", jewelryController.createJewellary);
 router.get("/getjewelry", jewelryController.getAlljewelry);
 router.delete("/deletejewelry/:id", jewelryController.deletejewelry);
 
