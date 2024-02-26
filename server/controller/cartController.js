@@ -1,19 +1,15 @@
 import Cart from '../model/cartModel.js';
-import multer from 'multer';
 import express from 'express';
-
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 
 const cartController = express.Router();
 
 // Controller to create a new cart item
-cartController.post('/create', upload.single('image'), async (req, res) => {
+cartController.post('/create', async (req, res) => {
   try {
     const {
       clarity,
       colour,
-      dimenensions,
+      dimensions,
       hardness,
       name,
       quantity,
@@ -24,14 +20,13 @@ cartController.post('/create', upload.single('image'), async (req, res) => {
       units,
       userIds,
       weight,
+      image, // Assuming the image is directly sent in the request body
     } = req.body;
-
-    const image = req.file ? req.file.buffer.toString('base64') : '';
 
     const newCartItem = new Cart({
       clarity,
       colour,
-      dimenensions,
+      dimensions,
       hardness,
       image,
       name,
@@ -65,4 +60,4 @@ cartController.get('/getAll', async (req, res) => {
   }
 });
 
-export default cartController;
+export default cartController;
