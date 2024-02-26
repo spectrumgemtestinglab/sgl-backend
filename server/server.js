@@ -7,15 +7,17 @@ import { json } from 'express';
 import bcrypt from 'bcryptjs';
 import Login from './Model.js';
 import bodyParser from 'body-parser';
+import cartController from './controller/cartController.js';
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 app.use(cors());
-app.use(express.json({ limit: '10mb' }));
+app.use(express.json({ limit: '30mb' }));
 connectToMongoDB();
 app.use(json());
 app.use('/', router);
+app.use('/',cartController);
 app.use(bodyParser.json());
 
 
@@ -35,14 +37,7 @@ app.post('/signup', async (req, res) => {
 
     const imageBuffer = Buffer.from(imageBase64, 'base64');
 
-    const newUser = new Login({
-      username,
-      email,
-      password: hashedPassword,
-      whatsapp,
-      image: imageBuffer.toString('base64'),
-      address,
-    });
+    const newUser = new Login({username,email, password: hashedPassword,whatsapp, image: imageBuffer.toString('base64'), address});
 
     await newUser.save();
 

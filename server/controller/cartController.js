@@ -1,71 +1,68 @@
-// cartController.js
-import Cart from '../model/cartModel.js'; 
+import Cart from '../model/cartModel.js';
+import multer from 'multer';
+import express from 'express';
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
-export const createCartItem = async (req, res) => {
-  console.log(req.body);
+const cartController = express.Router();
+
+// Controller to create a new cart item
+cartController.post('/create', upload.single('image'), async (req, res) => {
   try {
-    
-    const newCartItem = new Cart(req.body);
+    const {
+      clarity,
+      colour,
+      dimensions,
+      hardness,
+      name,
+      quantity,
+      shape,
+      size,
+      subtype,
+      transparency,
+      units,
+      userIds,
+      weight,
+    } = req.body;
 
- 
-    await newCartItem.save();
+    const image = req.file ? req.file.buffer.toString('base64') : '';
 
-   
-    res.status(201).json({ message: 'Cart item created successfully', cartItem: newCartItem });
+    const newCartItem = new Cart({
+      clarity,
+      colour,
+      dimensions,
+      hardness,
+      image,
+      name,
+      quantity,
+      shape,
+      size,
+      subtype,
+      transparency,
+      units,
+      userIds,
+      weight,
+    });
+
+    const savedCartItem = await newCartItem.save();
+
+    res.status(201).json({ message: 'Cart item created successfully', cartItem: savedCartItem });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error creating Cart item:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
-};
+});
 
-
-
-export const getAllCartItems = async (req, res) => {
+// Controller to get all cart items
+cartController.get('/getAll', async (req, res) => {
   try {
-    
     const cartItems = await Cart.find();
-
-   
     res.status(200).json({ cartItems });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Internal Server Error' });
+    console.error('Error fetching Cart items:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
   }
-};
-export const deleteCartItem = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const cart = await Cart.findById(id);
+});
 
-    if (!cart) {
-      return res.status(404).json({ error: 'Cart not found' });
-    }
-
-    await Cart.deleteOne({ _id: id });
-
-    res.status(200).json({ message: 'Cart deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting Cart:', error);
-    res.status(500).json({ error: 'Failed to delete Cart', details: error.message });
-  }
-};
-
-export const deleteAllCartItems = async (req, res) => {
-  try {
-    // Delete all cart items
-    await Cart.deleteMany({});
-
-    res.status(200).json({ message: 'All cart items deleted successfully' });
-  } catch (error) {
-    console.error('Error deleting all Cart items:', error);
-    res.status(500).json({ error: 'Failed to delete all Cart items', details: error.message });
-  }
-};
-
-export default {
-  createCartItem,
-  getAllCartItems,
-  deleteCartItem,
-  deleteAllCartItems,
-};
+export default cartController;

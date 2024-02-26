@@ -12,8 +12,6 @@ import blogsController from './controller/blogsController.js';
 import zodiacController from './controller/zodiacController.js';
 import contactController from './controller/contactController.js';
 import astrologyGemsController from './controller/astrologyGemsController.js';
-import gemsJewellaryController from './controller/looseDiamondsController.js';
-import cartController from './controller/cartController.js';
 import whishlistController from './controller/whishlistController.js';
 import chandraController from './controller/chandraControler.js';
 import multer from 'multer'
@@ -91,10 +89,6 @@ router.get("/getastrologygems", astrologyGemsController.getAllAstrologyGems);
 
 router.delete("/deleteastrologygems/:id",astrologyGemsController.deleteAstrologyGems)
 
-router.post("/createcart",cartController.createCartItem)
-router.get("/getallcart",cartController.getAllCartItems)
-router.delete('/deletecart/:id',cartController.deleteCartItem)
-router.delete("/deleteAllCartItems", cartController.deleteAllCartItems);
 
 router.post("/createwhishlist",whishlistController.createWhishlist)
 router.get("/getwhishlist",whishlistController.getAllWhishlist)
