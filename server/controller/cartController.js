@@ -13,7 +13,7 @@ cartController.post('/create', upload.single('image'), async (req, res) => {
     const {
       clarity,
       colour,
-      dimensions,
+      dimenensions,
       hardness,
       name,
       quantity,
@@ -31,7 +31,7 @@ cartController.post('/create', upload.single('image'), async (req, res) => {
     const newCartItem = new Cart({
       clarity,
       colour,
-      dimensions,
+      dimenensions,
       hardness,
       image,
       name,

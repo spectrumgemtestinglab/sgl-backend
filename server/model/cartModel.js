@@ -3,7 +3,7 @@ import { Schema, model } from "mongoose";
 const cartSchema = new Schema({
   clarity: { type: String, required: false },
   colour: { type: String, required: true },
-  dimensions: { type: String, required: true },
+  dimenensions: { type: String, required: true },
   hardness: { type: Number, required: true },
   image: { type: String, required: true },
   name: { type: String, required: true },
