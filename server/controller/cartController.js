@@ -9,7 +9,7 @@ cartController.post('/create', async (req, res) => {
     const {
       clarity,
       colour,
-      dimensions,
+      dimenensions,
       hardness,
       name,
       quantity,
@@ -26,7 +26,7 @@ cartController.post('/create', async (req, res) => {
     const newCartItem = new Cart({
       clarity,
       colour,
-      dimensions,
+      dimenensions,
       hardness,
       image,
       name,
