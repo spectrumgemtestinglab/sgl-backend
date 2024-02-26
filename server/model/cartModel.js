@@ -4,7 +4,7 @@ const cartSchema = new Schema({
   clarity: { type: String, required: false },
   colour: { type: String, required: true },
   dimenensions: { type: String, required: true },
-  hardness: { type: Number, required: true },
+  hardness: { type: Number, required: false },
   image: { type: String, required: true },
   name: { type: String, required: true },
   quantity: { type: Number, required: false },
