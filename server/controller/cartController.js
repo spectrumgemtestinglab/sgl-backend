@@ -57,7 +57,25 @@ cartController.get('/getAll', async (req, res) => {
   } catch (error) {
     console.error('Error fetching Cart items:', error);
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
-  }
+  };
+
+  cartController.get('/getByUserId/:userId', async (req, res) => {
+    try {
+      const userId = req.params.userId;
+  
+      const cartItems = await Cart.find({ userIds: userId });
+  
+      if (!cartItems || cartItems.length === 0) {
+        return res.status(404).json({ error: 'No cart items found for the specified user ID' });
+      }
+  
+      res.status(200).json({ cartItems });
+    } catch (error) {
+      console.error('Error fetching Cart items by user ID:', error);
+      res.status(500).json({ error: 'Internal Server Error', details: error.message });
+    }
+  })
+
 });
 
 export default cartController;
