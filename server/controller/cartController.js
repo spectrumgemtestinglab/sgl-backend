@@ -74,7 +74,26 @@ cartController.get('/getAll', async (req, res) => {
       console.error('Error fetching Cart items by user ID:', error);
       res.status(500).json({ error: 'Internal Server Error', details: error.message });
     }
-  })
+  });
+
+ // Controller to delete a cart item by ID
+cartController.delete('/deleteCart/:cartItemId', async (req, res) => {
+  try {
+    const cartItemId = req.params.cartItemId;
+
+    const deletedCartItem = await Cart.findByIdAndDelete(cartItemId);
+
+    if (!deletedCartItem) {
+      return res.status(404).json({ error: 'Cart item not found or already deleted' });
+    }
+
+    res.status(200).json({ message: 'Cart item deleted successfully', deletedCartItem });
+  } catch (error) {
+    console.error('Error deleting Cart item:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  }
+});
+
 
 });
 
