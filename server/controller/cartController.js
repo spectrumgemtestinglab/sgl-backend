@@ -58,30 +58,9 @@ cartController.get('/getAll', async (req, res) => {
     console.error('Error fetching Cart items:', error);
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
   };
-//
-cartController.post('/getCartByUserId', async (req, res) => {
-  try {
-    const { userId } = req.body;
-  
-    if (!userId) {
-      return res.status(400).json({ error: 'User ID is required in the request body' });
-    }
-
-    const cartItems = await Cart.find({ userIds: userId });
-  
-    if (!cartItems || cartItems.length === 0) {
-      return res.status(404).json({ error: 'No cart items found for the specified user ID' });
-    }
-  
-    res.status(200).json({ cartItems });
-  } catch (error) {
-    console.error('Error fetching Cart items by user ID:', error);
-    res.status(500).json({ error: 'Internal Server Error', details: error.message });
-  }
-});
 
 
- // Controller to delete a cart item by ID
+
 cartController.delete('/deleteCart/:cartItemId', async (req, res) => {
   try {
     const cartItemId = req.params.cartItemId;
@@ -99,6 +78,19 @@ cartController.delete('/deleteCart/:cartItemId', async (req, res) => {
   }
 });
 
+// Controller to get cart items by userIds
+cartController.get('/getByUserId/:userIds', async (req, res) => {
+  try {
+    const userIds = req.params.userIds;
+
+    const cartItems = await Cart.find({ userIds });
+
+    res.status(200).json({ cartItems });
+  } catch (error) {
+    console.error('Error fetching Cart items by userIds:', error);
+    res.status(500).json({ error: 'Internal Server Error', details: error.message });
+  }
+});
 
 });
 
