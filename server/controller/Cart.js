@@ -9,9 +9,9 @@ const cartController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        if (!req.file) {
-          return res.status(400).json({ error: 'Image file is required' });
-        }
+        // if (!req.file) {
+        //   return res.status(400).json({ error: 'Image file is required' });
+        // }
 
         const image = req.file.buffer.toString('base64');
 

@@ -3,42 +3,12 @@ import express from 'express';
 
 const cartController = express.Router();
 
-// Controller to create a new cart item
+//
+
 cartController.post('/create', async (req, res) => {
   try {
-    const {
-      clarity,
-      colour,
-      dimenensions,
-      hardness,
-      name,
-      quantity,
-      shape,
-      size,
-      subtype,
-      transparency,
-      units,
-      userIds,
-      weight,
-      image, // Assuming the image is directly sent in the request body
-    } = req.body;
-
-    const newCartItem = new Cart({
-      clarity,
-      colour,
-      dimenensions,
-      hardness,
-      image,
-      name,
-      quantity,
-      shape,
-      size,
-      subtype,
-      transparency,
-      units,
-      userIds,
-      weight,
-    });
+    // Assuming req.body contains the necessary data for creating a new cart item
+    const newCartItem = new CartItem(req.body);
 
     const savedCartItem = await newCartItem.save();
 
@@ -58,9 +28,9 @@ cartController.get('/getAll', async (req, res) => {
     console.error('Error fetching Cart items:', error);
     res.status(500).json({ error: 'Internal Server Error', details: error.message });
   };
+});
 
-
-
+// Controller to delete a cart item
 cartController.delete('/deleteCart/:cartItemId', async (req, res) => {
   try {
     const cartItemId = req.params.cartItemId;
@@ -81,9 +51,9 @@ cartController.delete('/deleteCart/:cartItemId', async (req, res) => {
 // Controller to get cart items by userIds
 cartController.get('/getByUserId/:userIds', async (req, res) => {
   try {
-    const userIds = req.params.userIds;
+    const userIds = req.params.userIds.split(','); // Assuming userIds are passed as comma-separated values
 
-    const cartItems = await Cart.find({ userIds });
+    const cartItems = await Cart.find({ userId: { $in: userIds } });
 
     res.status(200).json({ cartItems });
   } catch (error) {
@@ -92,6 +62,4 @@ cartController.get('/getByUserId/:userIds', async (req, res) => {
   }
 });
 
-});
-
-export default cartController;
+export default cartController;

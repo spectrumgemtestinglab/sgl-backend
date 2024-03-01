@@ -29,7 +29,7 @@ const cartSchema = new Schema({
   colour: { type: String, required: true },
   dimensions: { type: String, required: true, default: "N/A" },
   hardness: { type: Number, required: false, default: 0 },
-  image: { type: String, required: true },
+  image: { type: String, required: false },
   name: { type: String, required: true },
   quantity: { type: Number, required: false, default: 1 },
   shape: { type: String, required: true },
