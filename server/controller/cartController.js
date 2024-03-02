@@ -42,7 +42,7 @@ const cartController = {
 
   deleteCartItem: async (req, res) => {
     try {
-      const {id } = req.params;
+      const {id} = req.params;
 
       if (!id) {
         return res.status(400).json({ message: "Cart ID is required for deletion" });
@@ -57,6 +57,23 @@ const cartController = {
       res.status(200).json({ message: "Cart item deleted successfully" });
     } catch (error) {
       console.error("Error deleting cart item:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+
+  deleteUserId: async (req, res) => {
+    try {
+      const { userIds } = req.params;
+  
+      const deleteResult = await Cart.deleteMany({ userIds });
+  
+      if (deleteResult.deletedCount === 0) {
+        return res.status(404).json({ message: "UserId not found" });
+      }
+  
+      res.status(200).json({ message: "UserId deleted successfully" });
+    } catch (error) {
+      console.error("Error deleting user Id:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   },

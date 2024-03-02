@@ -113,6 +113,8 @@ router.get('/cart-items', cartController.getAllCartItems);
 router.get('/getCartItemById/:userIds', cartController.getByUserIds);
 
 router.delete("/deletecartItems/:id",cartController.deleteCartItem)
+router.delete('/deleteCartData/:userId', cartController.deleteUserId);
+
 
 router.delete('/deleteAll', cartController.deleteAllCartItems);
 
