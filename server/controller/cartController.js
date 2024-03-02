@@ -61,22 +61,27 @@ const cartController = {
     }
   },
 
-  deleteUserId: async (req, res) => {
+  deleteUserCart: async (req, res) => {
     try {
-      const { userIds } = req.params;
+      const { userIds } = req.body; // Use userIds instead of userId
+  
+      if (!userIds) {
+        return res.status(400).json({ message: "UserIds is required for deletion" });
+      }
   
       const deleteResult = await Cart.deleteMany({ userIds });
   
       if (deleteResult.deletedCount === 0) {
-        return res.status(404).json({ message: "UserId not found" });
+        return res.status(404).json({ message: "No cart items found for the specified UserIds" });
       }
   
-      res.status(200).json({ message: "UserId deleted successfully" });
+      res.status(200).json({ message: "Cart items deleted successfully for the specified UserIds" });
     } catch (error) {
-      console.error("Error deleting user Id:", error);
+      console.error("Error deleting user cart:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   },
+  
   
 
   deleteAllCartItems: async (req, res) => {
