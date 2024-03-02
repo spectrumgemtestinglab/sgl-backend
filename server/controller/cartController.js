@@ -25,24 +25,24 @@ const cartController = {
 
   getByUserIds: async (req, res) => {
     const { userIds } = req.params;
-
+  
     try {
-      // Corrected the model name from cartData to Cart
       const cartItems = await Cart.find({ userIds });
-
+      
       if (cartItems.length === 0) {
         return res.status(404).json({ error: 'No cart items found for the specified userIds' });
       }
-
+  
       res.status(200).json(cartItems);
     } catch (error) {
       console.error(error);
       res.status(500).json({ error: 'Failed to get cart items by userIds' });
     }
   },
+
   deleteCartItem: async (req, res) => {
     try {
-      const { id } = req.params;
+      const {id } = req.params;
 
       if (!id) {
         return res.status(400).json({ message: "Cart ID is required for deletion" });

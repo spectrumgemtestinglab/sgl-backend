@@ -1,5 +1,4 @@
 
-import express from 'express'
 import multer from "multer";
 import LooseDiamonds from '../model/looseDiamondsModel.js'
 
