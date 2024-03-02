@@ -85,7 +85,7 @@ router.delete("/deleteconatct/:id",contactController.deleteContact)
 
 router.post("/postloosediamonds",looseDiamondsController.createDiamonds)
 router.get("/getloosedimonds",looseDiamondsController.getAllDiamonds)
-router.delete("/deletediamonds/:id",looseDiamondsController.deleteDiamonds)
+router.delete('/diamonds/:id',looseDiamondsController.deleteDiamonds);
 
 
 

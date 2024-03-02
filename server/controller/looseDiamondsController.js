@@ -44,26 +44,23 @@ const looseDiamondsController = {
     }
   ],
 
+
   deleteDiamonds: async (req, res) => {
     try {
-      const diamondId = req.params.id;
-
-      if (!mongoose.Types.ObjectId.isValid(gemId)) {
-        return res.status(400).json({ error: 'Invalid Daimond ID' });
+      const { id } = req.params;
+      const deleteDiamond = await LooseDiamonds.findByIdAndDelete(id);
+        if (!deleteDiamond) {
+        return res.status(404).json({ error: "Diamond not found" });
       }
-
-      const deleteDiamond = await LooseDiamonds.findByIdAndDelete(diamondId);
-
-      if (!deleteDiamond) {
-        return res.status(404).json({ error: 'Diamond not found' });
-      }
-
-      res.status(200).json({ message: 'Diamond deleted successfully', deleteDiamond });
+  
+        res.status(200).json({ message: "Diamond deleted successfully" });
     } catch (error) {
-      console.error('Error deleting gem:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+        console.error(error);
+      res.status(500).json({ error: "Internal Server Error" });
     }
-  },
+  }
+  
+  
 };
 
 export default looseDiamondsController;
