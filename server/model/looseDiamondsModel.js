@@ -11,7 +11,7 @@ const looseDiamondsSchema = new Schema({
   subtype: { type: String, required: true },
   units: { type: String, required: true },
   shape: { type: String, required: true },
-  dimenensions:{type:String,required:true},
+  dimensions:{type:String,required:true},
   description:{type:String,required:true}
 });
 

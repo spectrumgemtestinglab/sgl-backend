@@ -16,7 +16,10 @@ import whishlistController from './controller/whishlistController.js';
 import chandraController from './controller/chandraControler.js';
 import multer from 'multer'
 import looseDiamondsController from './controller/looseDiamondsController.js';
-import cartController from './controller/Cart.js';
+import Cart from './controller/Cart.js';
+import cartController from './controller/cartController.js';
+
+
 
 
 const upload = multer({ dest: 'uploads/' });
@@ -101,13 +104,17 @@ router.post('/postchandra', upload.array('images'), chandraController.createChan
 router.get('/getallchandra', chandraController.getAllChandra);
 router.delete('/deletechandra/:id', chandraController.deleteChandra);
 
-router.post("/createcart",cartController.createCart)
-router.get("/getAllCart",cartController.getAllCart)
-router.get("/getById/:userIds",cartController.getByUserIds)
+router.post("/createcart",Cart.createCart)
+router.get("/getAllCart",Cart.getAllCart)
+router.get("/getById/:userIds",Cart.getByUserIds)
 
+router.post("/create",cartController.createCartItem)
+router.get('/cart-items', cartController.getAllCartItems);
+router.get('/getCartItemById/:id', cartController.getByUserIds);
 
-// router.get("/getAllCart",cartController.getAllCart)
-// router.get("/getById/:id",cartController.getCartByUserId)
+router.delete("/delete/:id",cartController.deleteCartItem)
+
+router.delete('/deleteAll', cartController.deleteAllCartItems);
 
 export default router;
 

@@ -20,7 +20,7 @@ const pearlsController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination } = req.body;
+        const { name, price, weight, colour, subtype, units, value, shape,dimensions,transparency,hardness,microscopicexamination } = req.body;
 
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -32,7 +32,7 @@ const pearlsController = {
           return res.status(400).json({ error: 'Pearls name, price, weight, and colour are required' });
         }
 
-        const pearls = new Pearls({ name, price, image, weight, colour, subtype, units, value, shape,dimenensions,transparency,hardness,microscopicexamination });
+        const pearls = new Pearls({ name, price, image, weight, colour, subtype, units, value, shape,dimensions,transparency,hardness,microscopicexamination });
         const savedPearls = await pearls.save();
 
         res.status(201).json(savedPearls);

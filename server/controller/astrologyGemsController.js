@@ -10,7 +10,7 @@ const astrologyGemsController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, value, shape, dimenensions, transparency, hardness, microscopicexamination } = req.body;
+        const { name, price, weight, colour, subtype, units, value, shape, dimensions, transparency, hardness, microscopicexamination } = req.body;
 
         if (!req.file) {
           return res.status(400).json({ error: 'Image file is required' });
@@ -18,7 +18,7 @@ const astrologyGemsController = {
 
         const image = req.file.buffer.toString('base64');
 
-        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimenensions || !transparency || !hardness || !microscopicexamination) {
+        if (!name || !price || !weight || !colour || !subtype || !units || !value || !shape || !dimensions || !transparency || !hardness || !microscopicexamination) {
           return res.status(400).json({ error: 'All fields are required' });
         }
 
@@ -32,7 +32,7 @@ const astrologyGemsController = {
           units,
           value,
           shape,
-          dimenensions,
+          dimensions,
           transparency,
           hardness,
           microscopicexamination,

@@ -21,7 +21,7 @@ const looseDiamondsController = {
     upload.fields([{ name: 'image1', maxCount: 1 }, { name: 'image2', maxCount: 1 }]),
     async (req, res) => {
       try {
-        const { name, price, weight, colour, subtype, units, shape, dimenensions, description } = req.body;
+        const { name, price, weight, colour, subtype, units, shape, dimensions, description } = req.body;
 
         if (!req.files || !req.files['image1'] || !req.files['image2']) {
           return res.status(400).json({ error: 'Both image files are required' });
@@ -30,11 +30,11 @@ const looseDiamondsController = {
         const image1 = req.files['image1'][0].buffer.toString('base64');
         const image2 = req.files['image2'][0].buffer.toString('base64');
 
-        if (!name || !price || !weight || !colour || !subtype || !units || !shape || !dimenensions || !description) {
+        if (!name || !price || !weight || !colour || !subtype || !units || !shape || !dimensions || !description) {
           return res.status(400).json({ error: 'Gems name, price, weight, colour, subtype, units, shape, dimensions, and description are required' });
         }
 
-        const loose = new LooseDiamonds({ name, price, weight, colour, subtype, units, shape, dimenensions, description, image1, image2 });
+        const loose = new LooseDiamonds({ name, price, weight, colour, subtype, units, shape, dimensions, description, image1, image2 });
         const savedDiamonds = await loose.save();
 
         res.status(201).json(savedDiamonds);

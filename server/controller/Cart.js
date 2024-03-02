@@ -9,9 +9,9 @@ const cartController = {
     upload.single('image'),
     async (req, res) => {
       try {
-        // if (!req.file) {
-        //   return res.status(400).json({ error: 'Image file is required' });
-        // }
+        if (!req.file) {
+          return res.status(400).json({ error: 'Image file is required' });
+        }
 
         const image = req.file.buffer.toString('base64');
 
@@ -19,7 +19,7 @@ const cartController = {
         const {
           name,
           colour,
-          dimenensions, 
+          dimensions, 
           hardness,
           shape,
           transparency,
@@ -35,7 +35,7 @@ const cartController = {
         const newCartItem = new cartData({
           clarity,
           colour,
-          dimenensions, 
+          dimensions, 
           hardness,
           image,
           name,
@@ -49,7 +49,7 @@ const cartController = {
           weight,
         });
 
-        const requiredFields = [name, colour, dimenensions, shape, transparency, units, userIds, weight];
+        const requiredFields = [name, colour, dimensions, shape, transparency, units, userIds, weight];
         if (requiredFields.some((field) => !field)) {
           return res.status(400).json({ error: 'All required fields must be provided' });
         }

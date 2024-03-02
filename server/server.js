@@ -7,7 +7,7 @@ import { json } from 'express';
 import bcrypt from 'bcryptjs';
 import Login from './Model.js';
 import bodyParser from 'body-parser';
-import cartController from './controller/cartController.js';
+
 
 dotenv.config();
 const app = express();
@@ -17,7 +17,7 @@ app.use(express.json({ limit: '30mb' }));
 connectToMongoDB();
 app.use(json());
 app.use('/', router);
-app.use('/',cartController);
+
 app.use(bodyParser.json());
 
 
