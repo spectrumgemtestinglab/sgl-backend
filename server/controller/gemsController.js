@@ -22,21 +22,21 @@ const gemsController = {
     async (req, res) => {
       try {
         const { name, weight, colour, subtype, units, shape, dimensions, description } = req.body;
-
-        if (!req.files || !req.files['image1'] || !req.files['image2']) {
+  
+        if (!req.files?.['image1'] || !req.files?.['image2']) {
           return res.status(400).json({ error: 'Both image files are required' });
         }
-
+  
+        if (!name || !weight || !colour || !subtype || !units || !shape || !dimensions || !description) {
+          return res.status(400).json({ error: 'All gem fields are required' });
+        }
+  
         const image1 = req.files['image1'][0].buffer.toString('base64');
         const image2 = req.files['image2'][0].buffer.toString('base64');
-
-        if (!name  || !weight || !colour || !subtype || !units || !shape || !dimensions || !description) {
-          return res.status(400).json({ error: 'Gems name, price, weight, colour, subtype, units, shape, dimensions, and description are required' });
-        }
-
+  
         const gems = new Gems({ name, weight, colour, subtype, units, shape, dimensions, description, image1, image2 });
         const savedGems = await gems.save();
-
+  
         res.status(201).json(savedGems);
       } catch (error) {
         console.error('Error creating gem:', error);
@@ -44,6 +44,7 @@ const gemsController = {
       }
     }
   ],
+  
 
   deleteGem: async (req, res) => {
     try {

@@ -4,7 +4,6 @@ const gemsSchema = Schema({
   image1: { type: String, required: true },
   image2:{type:String,required:true},
   name: { type: String, required: true },
-  // price: { type: Number, required: false },
   weight: { type: Number, required: true },
   colour: { type: String, required: true },
   subtype: { type: String, required: true },
