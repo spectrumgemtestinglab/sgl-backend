@@ -1,32 +1,17 @@
+// userModel.js
+import mongoose from "mongoose";
 
-import { Schema, model } from "mongoose";
-
-const loginSchema = new Schema({
+const userSchema = new mongoose.Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  resetToken: String,
-  resetTokenExpiration: Date,
+  otp: { type: String },
+  otpCreatedAt: { type: Date },
+  username: { type: String, required: true },
+  whatsapp: { type: String },
+  image: { type: String, required: true },
+  address: { type: String, required: true },
 });
 
-const Login = model("Login", loginSchema);
+const User = mongoose.model("User", userSchema);
 
-export default Login;
-
-
-
-
-
-
-
-
-
-// import { Schema, model } from "mongoose";
-
-// const loginSchema = new Schema({
-//   email: { type: String, required: true, unique: true },
-//   password: { type: String, required: true },
-// });
-
-// const Login = model("Login", loginSchema);
-
-// export default Login;
+export default User;
