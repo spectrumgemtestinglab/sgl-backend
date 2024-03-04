@@ -118,6 +118,7 @@ router.post('/login', loginController.login);
 router.post('/generate-otp', loginController.generateOTP);
 router.post('/verify-otp', loginController.verifyOTP);
 router.post("/reset-password",loginController.resetPassword)
+router.patch('/update-password',loginController.updatePassword)
 
 export default router;
 

@@ -181,6 +181,38 @@ generateOTP: async (req, res) => {
         }
       },
         
+      updatePassword: async (req, res) => {
+        try {
+          const { email, currentPassword, newPassword } = req.body;
+    
+          // Find the user by email
+          const user = await User.findOne({ email });
+    
+          // Check if the user exists
+          if (!user) {
+            return res.status(404).json({ error: 'User not found' });
+          }
+    
+          // Check if the current password is valid
+          const isPasswordValid = await bcrypt.compare(currentPassword, user.password);
+    
+          if (!isPasswordValid) {
+            return res.status(401).json({ error: 'Current password is incorrect' });
+          }
+    
+          // Update the user's password with the new one
+          const hashedPassword = await bcrypt.hash(newPassword, 10);
+          user.password = hashedPassword;
+    
+          // Save the updated user
+          await user.save();
+    
+          res.status(200).json({ message: 'Password updated successfully' });
+        } catch (error) {
+          console.error('Error during password update:', error);
+          res.status(500).json({ error: 'Failed to update password' });
+        }
+      },    
 };
 
 export default userController;
