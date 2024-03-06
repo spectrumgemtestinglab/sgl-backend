@@ -43,28 +43,7 @@ const userController = {
     },
   ],
 
-    // login: async (req, res) => {
-    //     try {
-    //         const { email, password } = req.body;
-    //         const user = await User.findOne({ email });
-
-    //         if (!user) {
-    //             return res.status(404).json({ message: "User not found" });
-    //         }
-
-    //         const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    //         if (!isPasswordValid) {
-    //             return res.status(401).json({ error: "Invalid password" });
-    //         }
-
-    //         res.status(200).json({ message: "Login successful" });
-    //     } catch (error) {
-    //         console.error('Error during login:', error);
-    //         res.status(500).json({ error: 'Failed to login' });
-    //     }
-    // },
-
+  
 
 
     login: async function (req, res) {
@@ -142,7 +121,7 @@ generateOTP: async (req, res) => {
                 // OTP is valid
                 res.status(200).json({ message: 'OTP verification successful' });
             } else {
-                // OTP is invalid or expired
+                // OTP is invalid or expire
                 res.status(401).json({ error: 'Invalid or expired OTP' });
             }
         } catch (error) {

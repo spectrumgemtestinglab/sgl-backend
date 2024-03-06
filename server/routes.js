@@ -107,6 +107,7 @@ router.delete('/deletechandra/:id', chandraController.deleteChandra);
 router.post("/create",cartController.createCartItem)
 router.get('/cart-items', cartController.getAllCartItems);
 router.get('/getCartItemById/:userIds', cartController.getByUserIds);
+router.delete('/deleteuserIds/:userIds',cartController.deleteCartuserIds)
 
 router.delete("/deletecartItems/:id",cartController.deleteCartItem)
 router.post('/deleteCartDa', cartController.deleteUserCart);

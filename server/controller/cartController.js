@@ -61,6 +61,28 @@ const cartController = {
     }
   },
 
+  deleteCartuserIds: async (req, res) => {
+    try {
+      const { userIds } = req.params;
+  
+      if (!userIds) {
+        return res.status(400).json({ message: "userIds is required" });
+      }
+  
+      const deletedCartItem = await Cart.findOneAndDelete({ userIds });
+  
+      if (!deletedCartItem) {
+        return res.status(404).json({ message: "No cart item found for the specified userIds" });
+      }
+  
+      res.status(200).json({ message: 'Cart item deleted successfully', deletedCartItem });
+    } catch (error) {
+      console.error("Error deleting cart item:", error);
+      res.status(500).json({ error: "Internal Server Error" });
+    }
+  },
+  
+
   deleteUserCart: async (req, res) => {
     try {
       const { userIds } = req.body; // Use userIds instead of userId
