@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-const storage = multer.memoryStorage(); // Store images in memory
+const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
