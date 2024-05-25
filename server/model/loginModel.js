@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
   otpCreatedAt: { type: Date },
   username: { type: String, required: true },
   whatsapp: { type: String },
-  image: { type: String, required: true },
   address: { type: String, required: true },
 });
 

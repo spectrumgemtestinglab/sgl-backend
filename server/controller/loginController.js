@@ -1,9 +1,8 @@
 import bcrypt from 'bcrypt';
 import User from '../model/loginModel.js';
-import multer from 'multer';
 import jwt from 'jsonwebtoken';
 import nodemailer from 'nodemailer';
-//
+
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -11,9 +10,6 @@ const transporter = nodemailer.createTransport({
     pass: 'yqsp pvul xaww tpyi',
   },
 });
-
-const storage = multer.memoryStorage(); 
-const upload = multer({ storage: storage });
 
 const generateOTP = () => Math.floor(100000 + Math.random() * 900000).toString();
 
@@ -39,7 +35,6 @@ const userController = {
         username,
         whatsapp,
         address,
-        image: req.file.buffer.toString('base64'),
       });
 
       await newUser.save();
